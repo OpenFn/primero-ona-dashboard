@@ -1,7 +1,7 @@
 fn(state => {
   const applyMapping = primeroCase => {
     return {
-      cases: primeroCase.case_id_display,
+      case_id: primeroCase.case_id_display,
       registration_date: primeroCase.registration_date,
       case_source: primeroCase.oscar_number || 'primero',
       disabled: primeroCase.disability_type,
@@ -24,5 +24,5 @@ fn(state => {
 });
 
 each('onaData[*]', state => {
-  return upsert('cases', 'cases', state.data)(state);
+  return upsert('cases', 'case_id', state.data)(state);
 });
