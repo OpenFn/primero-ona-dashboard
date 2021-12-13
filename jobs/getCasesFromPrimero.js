@@ -3,9 +3,7 @@ getCases(
     remote: true,
     query: 'type_of_case=Children Undergoing Reintegration',
   },
-  state => {
-    return { ...state, childrenUndergoingReintegration: state.data };
-  }
+  state => ({ ...state, childrenUndergoingReintegration: state.data });
 );
 
 getCases(
@@ -13,7 +11,5 @@ getCases(
     remote: true,
     query: 'age<18',
   },
-  state => {
-    return { ...state, ageUnder18: state.data };
-  }
+  state => ({ ...state, ageUnder18: state.data, references: [] })
 );
