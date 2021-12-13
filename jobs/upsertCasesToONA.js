@@ -16,13 +16,13 @@ fn(state => {
 });
 
 fn(state => {
-  const data = [
+  const onaData = [
     ...state.data.childrenUndergoingReintegration,
     ...state.data.ageUnder18,
-  ];
-  return { ...state, onaData: data.map(state.applyMapping) };
+  ].map(state.applyMapping);
+  return { ...state, onaData };
 });
 
 each('onaData[*]', state => {
-  return upsert('cases', 'cases', state.data, { logValues: true })(state);
+  return upsert('cases', 'cases', state.data)(state);
 });
