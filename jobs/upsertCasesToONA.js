@@ -1,5 +1,5 @@
 fn(state => {
-  state.applyMapping = primeroCase => {
+  const applyMapping = primeroCase => {
     return {
       cases: primeroCase.case_id_display,
       registration_date: primeroCase.registration_date,
@@ -12,11 +12,14 @@ fn(state => {
       district: primeroCase.location_caregiver,
     };
   };
-  return state;
+  return { ...state, applyMapping };
 });
 
 fn(state => {
-  const data = [...state.data.childrenUndergoingReintegration, ...state.data.ageUnder18];
+  const data = [
+    ...state.data.childrenUndergoingReintegration,
+    ...state.data.ageUnder18,
+  ];
   return { ...state, onaData: data.map(state.applyMapping) };
 });
 
