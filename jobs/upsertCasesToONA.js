@@ -23,6 +23,4 @@ fn(state => {
   return { ...state, onaData };
 });
 
-each('onaData[*]', state => {
-  return upsert('cases', 'cases', state.data)(state);
-});
+each('onaData[*]', upsert('cases', 'cases', state.data));
