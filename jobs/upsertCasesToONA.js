@@ -1,4 +1,4 @@
-fn(state => {
+fn(state => {  
   const applyMapping = primeroCase => {
     return {
       cases: primeroCase.case_id_display,
@@ -12,14 +12,14 @@ fn(state => {
       district: primeroCase.location_caregiver,
     };
   };
-  return { ...state, applyMapping };
-});
-
-fn(state => {
+  
+  const { childrenUndergoingReintegration, ageUnder18 } = state.data;
+  
   const onaData = [
-    ...state.data.childrenUndergoingReintegration,
-    ...state.data.ageUnder18,
+    ...childrenUndergoingReintegration,
+    ...ageUnder18,
   ].map(state.applyMapping);
+  
   return { ...state, onaData };
 });
 
