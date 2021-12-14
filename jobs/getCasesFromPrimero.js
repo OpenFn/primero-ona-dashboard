@@ -1,14 +1,9 @@
-fn(state => {
-  const yS = new Date(new Date().getFullYear(), 0, 1);
-  const yE = new Date(new Date().getFullYear(), 11, 31);
-  console.log(`Getting cases between ${yS} and ${yE}`);
-  return { ...state, yS, yE };
-});
-
 getCases(
   {
     remote: true,
-    query: `type_of_case = Children Undergoing Reintegration AND created_at >= ${state.yS} AND created_at < ${state.yE}`,
+    type_of_case: 'Children Undergoing Reintegration',
+    created_at: '2021-01-01T00:00:00.000Z..2021-12-31T23:59:00.000Z',
+    per: 100000000,
   },
   state => ({ ...state, cases: [...state.data] })
 );
@@ -16,7 +11,9 @@ getCases(
 getCases(
   {
     remote: true,
-    query: `age < 18 AND created_at >= ${state.yS} AND created_at < ${state.yE}`,
+    created_at: '2021-01-01T00:00:00.000Z..2021-12-31T23:59:00.000Z',
+    age: '0..18',
+    per: 100000000,
   },
   state => ({
     ...state,
