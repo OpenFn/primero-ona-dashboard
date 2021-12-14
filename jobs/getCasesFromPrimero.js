@@ -8,7 +8,7 @@ fn(state => {
 getCases(
   {
     remote: true,
-    query: 'type_of_case=Children Undergoing Reintegration',
+    query: `type_of_case = Children Undergoing Reintegration AND created_at >= ${state.yS} AND created_at < ${state.yE}`,
   },
   state => ({ ...state, cases: [...state.data] })
 );
@@ -16,7 +16,7 @@ getCases(
 getCases(
   {
     remote: true,
-    query: 'age<18',
+    query: `age < 18 AND created_at >= ${state.yS} AND created_at < ${state.yE}`,
   },
   state => ({
     ...state,
