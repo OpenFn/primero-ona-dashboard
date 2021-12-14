@@ -1,3 +1,10 @@
+fn(state => {
+  const yS = new Date(new Date().getFullYear(), 0, 1);
+  const yE = new Date(new Date().getFullYear(), 11, 31);
+  console.log(`Getting cases between ${yS} and ${yE}`);
+  return { ...state, yS, yE };
+});
+
 getCases(
   {
     remote: true,
