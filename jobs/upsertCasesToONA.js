@@ -11,4 +11,4 @@ each(
     province: c.data.location_caregiver,
     district: c.data.location_caregiver,
   }))
-);
+); 
