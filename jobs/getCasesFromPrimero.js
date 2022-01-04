@@ -21,3 +21,6 @@ getCases(
     references: [],
   })
 );
+
+// add a fn block that add's an attribute to state.
+// And later use that attribute in the next run of the job.
