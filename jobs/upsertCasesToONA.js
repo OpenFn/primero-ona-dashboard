@@ -7,8 +7,35 @@ each(
     disabled: c.data.disability_type,
     sex: c.data.sex,
     age: c.data.age,
+    protection_concern:
+      c.data.protection_concerns && c.data.protection_concerns.join(','),
+
     placement_type: c.data.type_of_placement,
-    province: c.data.location_caregiver,
-    district: c.data.location_caregiver,
+    // province: c.data.location_caregiver || c.data.location_current,
+    // district: c.data.location_caregiver || c.data.location_current,
   }))
-); 
+);
+
+fn(state => {
+  const allServices = state.cases
+    .map(c => {
+      const case_id = c.case_id_display;
+      const services =
+        c.services_section &&
+        c.services_section.map(service => ({
+          case_id: case_id,
+          unique_id: service.unique_id,
+          service_type: service.service_type,
+        }));
+      return services;
+    })
+    .flat()
+    .filter(service => service !== undefined);
+
+  return { ...state, allServices };
+});
+
+each(
+  'allServices[*]',
+  upsert('services', 'unique_id', state => state.data)
+);
