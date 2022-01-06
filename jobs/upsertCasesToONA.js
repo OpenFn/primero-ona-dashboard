@@ -26,6 +26,7 @@ fn(state => {
           case_id: case_id,
           unique_id: service.unique_id,
           service_type: service.service_type,
+          service_date: service.service_implemented_day_time === 'not implemented' ? null : service.service_implemented_day_time,
         }));
       return services;
     })
