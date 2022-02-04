@@ -9,8 +9,16 @@ each(
     age: c.data.age,
     protection_concern:
       c.data.protection_concerns && c.data.protection_concerns.join(','),
-
-    placement_type: c.data.type_of_placement,
+    
+    placement_type: () => {
+      const pt = c.data.placement_type;
+      if(!pt){
+        return ''
+      }
+      const words = pt.split("_")
+      words.pop() // remove the number
+      return words.join(" ")
+}
     // province: c.data.location_caregiver || c.data.location_current,
     // district: c.data.location_caregiver || c.data.location_current,
   }))
