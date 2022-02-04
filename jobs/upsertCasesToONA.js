@@ -10,15 +10,16 @@ each(
     protection_concern:
       c.data.protection_concerns && c.data.protection_concerns.join(','),
     
-    placement_type: () => {
+    placement_type: c => {
       const pt = c.data.placement_type;
+      console.log("PT", pt)
       if(!pt){
         return ''
       }
       const words = pt.split("_")
       words.pop() // remove the number
       return words.join(" ")
-}
+    }
     // province: c.data.location_caregiver || c.data.location_current,
     // district: c.data.location_caregiver || c.data.location_current,
   }))
