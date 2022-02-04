@@ -17,6 +17,12 @@ each(
 );
 
 fn(state => {
+  console.log("PLACEMENT");
+  console.log(state.data.placement_type);
+  return state;
+});
+
+fn(state => {
   const allServices = state.cases
     .map(c => {
       const case_id = c.case_id_display;
@@ -30,7 +36,6 @@ fn(state => {
         }));
       return services;
     })
-    console.log(state.data.placement_type)
     .flat()
     .filter(service => service !== undefined);
 
