@@ -30,6 +30,7 @@ fn(state => {
         }));
       return services;
     })
+    console.log(state.data.placement_type)
     .flat()
     .filter(service => service !== undefined);
 
