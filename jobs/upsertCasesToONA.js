@@ -7,7 +7,7 @@ each(
     disabled: c.data.disability_type,
     sex: c.data.sex,
     age: c.data.age,
-    protection_concern:
+    protection_concerns:
       c.data.protection_concerns && c.data.protection_concerns.join(','),
     
     placement_type: c => c.data.placement_type && c.data.placement_type.split("_").slice(0, -1).join(" "),
