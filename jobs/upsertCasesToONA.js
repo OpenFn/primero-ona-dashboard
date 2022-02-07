@@ -10,7 +10,15 @@ each(
     protection_concern:
       c.data.protection_concerns && c.data.protection_concerns.join(','),
     
-    placement_type: c => c.data.placement_type && c.data.placement_type.split("_").slice(0, -1).join(" ")
+    placement_type: c => c.data.placement_type && c.data.placement_type.split("_").slice(0, -1).join(" "),
+    district_current: await findValue({
+      uuid: 'district',
+      relation: 'locations',
+      where: {
+        location_code: dataValue('location_current')(state)
+        
+      }
+    })(state)
     // province: c.data.location_caregiver || c.data.location_current,
     // district: c.data.location_caregiver || c.data.location_current,
   }))
