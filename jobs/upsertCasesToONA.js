@@ -60,6 +60,7 @@ each(
     age: c.data.age,
     protection_concerns: c => {
       const protection_concerns = [];
+      const protections = c.data.protection_concerns || [];
       c.data.protection_concerns.forEach(protection => {
         protection_concerns.push(c.protectionMap[protection]);
       });
