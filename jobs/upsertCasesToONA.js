@@ -17,7 +17,8 @@ fn(state => {
     witness_domestic_violence_79996: 'At risk of child kidnapping',
     other_79684: 'Experienced child kidnapping',
     other_01574: 'At risk of trafficking',
-    affiliated_associated_to_stigmatized_parents_51727: 'Experienced trafficking',
+    affiliated_associated_to_stigmatized_parents_51727:
+      'Experienced trafficking',
     child_marriage_81380: 'At risk of physical violence',
     working_or_living_in_the_street_91509: 'Experiencing physical violence',
     worst_form_of_child_labour_26780: 'At risk of emotional violence',
@@ -27,12 +28,15 @@ fn(state => {
     delinquent_behavior_99053: 'Delinquent behavior',
     stigmatization_09708: 'Stigmatization',
     at_risk_of_forced_child_marriage_58534: 'At risk of forced/child marriage',
-    experienced_forced_child_marriage_85186: 'Experienced forced/child marriage',
+    experienced_forced_child_marriage_85186:
+      'Experienced forced/child marriage',
     working_or_living_on_the_street_24528: 'Working or living on the street',
     at_risk_of_child_labour_50927: 'At risk of child labour',
     experiencing_child_labour_10646: 'Experiencing child labour',
-    at_risk_of_worst_forms_of_child_labour_40266: 'At risk of worst forms of child labour',
-    experiencing_worst_forms_of_child_labour_64035: 'Experiencing worst forms of child labour',
+    at_risk_of_worst_forms_of_child_labour_40266:
+      'At risk of worst forms of child labour',
+    experiencing_worst_forms_of_child_labour_64035:
+      'Experiencing worst forms of child labour',
     witness_of_violence_05625: 'Witness of violence',
     abandonment_74305: 'Abandonment',
     affected_by_migration_74074: 'Affected by migration',
@@ -54,8 +58,14 @@ each(
     disabled: c.data.disability_type,
     sex: c.data.sex,
     age: c.data.age,
-    protection_concerns:
-      c.data.protection_concerns && c.data.protection_concerns.join(','),
+    protection_concerns: c => {
+      const protections = c.data.protection_concerns.split(' ');
+      const protection_concerns = [];
+      protections.forEach(protection => {
+        protection_concerns.push(c.protectionMap[protection]);
+      });
+      return protection_concerns.join(', ');
+    },
     //We expect that protection_concerns might have multiple values separated by a space (e.g., 'disabled serious_health_issue')
     //TODO: For each protection_concerns value, check protectionMap for the new value to relabel, and then join by ','
     //Example transformation: 'disabled serious_health_issue' --> 'At risk of neglect, Experiencing neglect'
