@@ -59,7 +59,7 @@ each(
     sex: c.data.sex,
     age: c.data.age,
     protection_concerns: c => {
-      const protections = c.data?.protection_concerns?.split(' ');
+      const protections = c.data.protection_concerns ? c.data.protection_concerns.split(' ') : [];
       const protection_concerns = [];
       protections.forEach(protection => {
         protection_concerns.push(c.protectionMap[protection]);
