@@ -61,7 +61,7 @@ each(
     protection_concerns: c => {
       const protection_concerns = [];
       const protections = c.data.protection_concerns || [];
-      c.data.protection_concerns.forEach(protection => {
+      protections.forEach(protection => {
         protection_concerns.push(c.protectionMap[protection]);
       });
       return protection_concerns.join(', ');
