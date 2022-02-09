@@ -51,37 +51,56 @@ fn(state => {
 
 each(
   'cases[*]',
-  upsert('cases', 'case_id', c => ({
-    case_id: c.data.case_id_display,
-    registration_date: c.data.registration_date,
-    case_source: c.data.oscar_number || 'primero',
-    disabled: c.data.disability_type,
-    sex: c.data.sex,
-    age: c.data.age,
-    protection_concerns: c => {
-      const protection_concerns = [];
-      const protections = c.data.protection_concerns || [];
-      protections.forEach(protection => {
-        protection_concerns.push(c.protectionMap[protection]);
-      });
-      return protection_concerns.join(', ');
-    },
-    //We expect that protection_concerns might have multiple values separated by a space (e.g., 'disabled serious_health_issue')
-    //TODO: For each protection_concerns value, check protectionMap for the new value to relabel, and then join by ','
-    //Example transformation: 'disabled serious_health_issue' --> 'At risk of neglect, Experiencing neglect'
-    placement_type: c =>
-      c.data.placement_type &&
-      c.data.placement_type.split('_').slice(0, -1).join(' '),
-    // district_current: await findValue({
-    //   uuid: 'district',
-    //   relation: 'locations',
-    //   where: {
-    //     location_code: dataValue('location_current')(state),
-    //   },
-    // })(state),
-    // province: c.data.location_caregiver || c.data.location_current,
-    // district: c.data.location_caregiver || c.data.location_current,
-  }))
+  fn(async state => {
+    const { data } = state;
+    return upsert('cases', 'case_id', {
+      case_id: data.case_id_display,
+      registration_date: data.registration_date,
+      case_source: data.oscar_number || 'primero',
+      disabled: data.disability_type,
+      sex: data.sex,
+      age: data.age,
+      protection_concerns: c => {
+        const protection_concerns = [];
+        const protections = data.protection_concerns || [];
+        protections.forEach(protection => {
+          protection_concerns.push(c.protectionMap[protection]);
+        });
+        return protection_concerns.join(', ');
+      },
+      placement_type: c =>
+        data.placement_type &&
+        data.placement_type.split('_').slice(0, -1).join(' '),
+      province_current: await findValue({
+        uuid: 'province',
+        relation: 'locations_lookup',
+        where: {
+          code: dataValue('location_current'),
+        },
+      })(state),
+      district_current: await findValue({
+        uuid: 'district',
+        relation: 'locations_lookup',
+        where: {
+          code: dataValue('location_current'),
+        },
+      })(state),
+      province_caregiver: await findValue({
+        uuid: 'province',
+        relation: 'locations_lookup',
+        where: {
+          code: dataValue('location_caregiver'),
+        },
+      })(state),
+      district_caregiver: await findValue({
+        uuid: 'district',
+        relation: 'locations_lookup',
+        where: {
+          code: dataValue('location_caregiver'),
+        },
+      })(state),
+    })(state);
+  })
 );
 
 fn(state => {
