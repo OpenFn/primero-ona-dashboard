@@ -68,9 +68,9 @@ each(
         });
         return protection_concerns.join(', ');
       },
-      placement_type: c => { console.log("THIS IS C ", c); 
-        return data.placement_type &&
-        data.placement_type.split('_').slice(0, -1).join(' ')},
+      placement_type: c => 
+        data.type_of_placement &&
+        data.type_of_placement.split('_').slice(0, -1).join(' '),
         
         
       province_current: await findValue({
