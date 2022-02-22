@@ -32,6 +32,10 @@ This is an automated flow which is triggered by a cron job scheduled to run on J
 
 - `case_id` for the `cases` table in ONA 
 - `unique_id` for the `services` table in ONA
+3. The `locations_lookup` table can be used to look up the codes that will be stored in the `province_caregiver`, `provice_current`, `district_caregiver`, `district_current` fields
+4. The `data_dicitonary` table can be used to determine the Primero label for each column in the `cases` and `services` tables
+
+
 
 ### Support
 Contact support@openfn.org.
