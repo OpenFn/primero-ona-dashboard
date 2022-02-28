@@ -46,19 +46,53 @@ fn(state => {
     _75169: 'Affected by COVID-19',
   };
 
-  return { ...state, protectionMap };
+  const serviceTypeMap = {
+    social_work_case_work: 'Social Work / Case Work',
+    family_based_care: 'Family Based Care',
+    drug_alcohol: 'Drug / Alcohol',
+    counselling: 'Counselling',
+    financial_development: 'Financial Development',
+    disability_support: 'Disability Support',
+    medical_support: 'Medical Support',
+    legal_support: 'Legal Support',
+    mental_health_support: 'Mental Health Support',
+    training_education: 'Training and Education',
+    family_support: 'Family Support',
+    anti_trafficking: 'Anti-Trafficking',
+    residential_care_gov_only: "Residential care (Gov't only)",
+    other: 'Other',
+  };
+
+  const disabilityTypeMap = {
+    no: 'Physical Disability (Hand Disability)',
+    mental_disability: 'Physical Disability (Feet Disability)',
+    physical_disability: 'Physical Disability (Body or Back Disability)',
+    both: 'Hearing or Speech Disability',
+    vision_disability_33985: 'Vision Disability',
+    intellectual_disability_including_mental_disability_19364:
+      'Intellectual Disability (including mental disability)',
+    other_28672: 'Other',
+  };
+
+  const sexMap = {
+    male: 'Male',
+    female: 'Female',
+  };
+
+  return { ...state, protectionMap, serviceTypeMap, disabilityTypeMap, sexMap };
 });
 
 each(
   'cases[*]',
   fn(async state => {
     const { data } = state;
+
     return upsert('cases', 'case_id', {
       case_id: data.case_id_display,
       registration_date: data.registration_date,
       case_source: data.oscar_number || 'primero',
-      disabled: data.disability_type,
-      sex: data.sex,
+      disabled: state.disabilityTypeMap[data.disability_type],
+      sex: state.sexMap[data.sex],
       age: data.age,
       protection_concerns: c => {
         const protection_concerns = [];
@@ -71,7 +105,6 @@ each(
       placement_type: c => 
         data.type_of_placement &&
         data.type_of_placement.split('_').slice(0, -1).join(' '),
-        
         
       province_current: await findValue({
         uuid: 'province',
@@ -120,7 +153,7 @@ fn(state => {
         c.services_section.map(service => ({
           case_id: case_id,
           unique_id: service.unique_id,
-          service_type: service.service_type,
+          service_type: state.serviceTypeMap[service.service_type],
           service_date:
             service.service_implemented_day_time === 'not implemented'
               ? null
