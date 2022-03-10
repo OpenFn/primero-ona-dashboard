@@ -90,7 +90,7 @@ each(
     return upsert('cases', 'case_id', {
       case_id: data.case_id_display,
       registration_date: data.registration_date,
-      case_source: data.oscar_number || 'primero',
+      case_source: data.oscar_number ? 'oscar' : 'primero',
       disabled: state.disabilityTypeMap[data.disability_type],
       sex: state.sexMap[data.sex],
       age: data.age,
