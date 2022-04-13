@@ -1,4 +1,6 @@
-# Solution Overview 
+<img width="684" alt="image" src="https://user-images.githubusercontent.com/80456839/163181830-a752bf25-0013-4368-89b4-98a7724350b3.png">
+
+# Primero <> ONA Dashboard Sync for Indicator Monitoring
 
 UNICEF is currently using an ONA-built Canopy-based dashboard to visualize integrated child protection-related indicators. This integration allows UNICEF to link specific indicators from this dashboard with aggregated data from Primero, to be extracted on an annual basis.
 
