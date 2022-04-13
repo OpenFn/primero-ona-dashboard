@@ -12,6 +12,7 @@ Please see this data diagram for a review of the solution:
 
 The mapping specifications for both indicators can be found via this link under the "mappings to DB" tabs ([see mapping specs](https://docs.google.com/spreadsheets/d/1mDMpH87JWPqPXMNTIXMFl0Uxu2yCPWI5tzuhCcexPIg/edit#gid=990515176)). 
 
+Check out this [presentiation](https://docs.google.com/presentation/d/1zk7wRrk-_G7t4I7B86nm7pQJDXiaGOWV5yvq__zVNpo/edit#slide=id.g1012a526bde_0_514) on the project overiew for more information. 
 
 
 ## Data Flow
