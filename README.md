@@ -40,4 +40,4 @@ Please see this data diagram for a review of the solution:
 Contact support@openfn.org.
 
 
-## View the full documentation at: https://openfn.github.io/primero-ona-dashboard/
+View the full documentation at: https://openfn.github.io/primero-ona-dashboard/
