@@ -39,7 +39,8 @@ This is an automated flow which is triggered by a cron job scheduled to run on J
 4. The `data_dicitonary` table can be used to determine the Primero label for each column in the `cases` and `services` tables
 
 
-
 ### Support
 Contact support@openfn.org.
 
+
+View the full documentation at: https://openfn.github.io/primero-ona-dashboard/
