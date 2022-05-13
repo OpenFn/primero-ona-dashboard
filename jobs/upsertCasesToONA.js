@@ -92,6 +92,9 @@ each(
       registration_date: data.registration_date,
       case_source: data.oscar_number ? 'oscar' : 'primero',
       disabled: state.disabilityTypeMap[data.disability_type],
+      type_of_case: c => 
+        data.type_of_case &&
+        data.type_of_case.split('_').slice(0, -1).join(' '),
       sex: state.sexMap[data.sex],
       age: data.age,
       protection_concerns: c => {
@@ -139,8 +142,8 @@ each(
 );
 
 fn(state => {
-  console.log('PLACEMENT');
-  console.log(state.data.placement_type);
+  console.log('TYPE OF CASE');
+  console.log(state.data.type_of_case);
   return state;
 });
 
