@@ -75,9 +75,17 @@ fn(state => {
   };
 
   const sexMap = {
+    male: 'ប្រុស',
+    female: 'ស្រី',
+  };
+  
+  const sexMapTranslation = {
     male: 'Male',
     female: 'Female',
   };
+  
+  
+  
 
   return { ...state, protectionMap, serviceTypeMap, disabilityTypeMap, sexMap };
 });
