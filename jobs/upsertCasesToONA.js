@@ -79,10 +79,6 @@ fn(state => {
     female: 'Female',
   };
   
-  const sexMapTranslation = {
-    male: 'ប្រុស',
-    female: 'ស្រី',
-  };
   
   
   
@@ -104,8 +100,6 @@ each(
         data.type_of_case &&
         data.type_of_case.split('_').slice(0, -1).join(' '),
       sex: state.sexMap[data.sex],
-      "ភេទ": state.sexMapTranslation[data.sex],
-      sex_kh: state.sexMap[data.sex],
       age: data.age,
       consent_for_reporting: data.consent_reporting ? data.consent_reporting : "false",
       protection_concerns: c => {
