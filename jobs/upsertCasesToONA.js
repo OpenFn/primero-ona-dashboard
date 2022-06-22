@@ -97,6 +97,7 @@ each(
         data.type_of_case.split('_').slice(0, -1).join(' '),
       sex: state.sexMap[data.sex],
       age: data.age,
+      consent_for_reporting: data.consent_reporting ? data.consent_reporting : "false",
       protection_concerns: c => {
         const protection_concerns = [];
         const protections = data.protection_concerns || [];
