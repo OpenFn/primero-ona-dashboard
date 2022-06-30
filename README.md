@@ -30,7 +30,7 @@ Please see this data diagram for a review of the solution:
 ## Assumptions & Considerations for Change Management
 1. OpenFn is fetching ALL Primero cases where for **indicator 1: "type_of_case" = "Children Undergoing Reintegration"** and for **indicator 2: Age < 18 years.** Any further disegregation of these indicators will be completed in the ONA database. 
 2. The `locations_lookup` table can be used to look up the codes that will be stored in the `province_caregiver`, `provice_current`, `district_caregiver`, `district_current` fields
-3. The `data_dicitonary` table can be used to determine the Primero label for each column in the `cases` and `services` tables
+3. The `data_dicitonary` table can be used to determine the Primero label for each column in the `cases` and `services` tables. This table also includes the Khmer translations for each `field` name and `option value` name. The translations are used by the ONA team to generate dashboards in both English and Khmer. 
 4. OpenFn will perform upsert() (update if record exists, create if new) operations in the ONA database when syncing data. To ensure no duplicate cases are entered, OpenFn will use the below identifiers to check for existing cases. We assume that these identifiers are unique.
 - `case_id` for the `cases` table in ONA 
 - `unique_id` for the `services` table in ONA
