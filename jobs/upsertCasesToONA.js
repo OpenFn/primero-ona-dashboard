@@ -78,13 +78,109 @@ fn(state => {
     male: 'Male',
     female: 'Female',
   };
-  
-  
-  
-  
 
   return { ...state, protectionMap, serviceTypeMap, disabilityTypeMap, sexMap };
 });
+fn(state => {
+  const { sexMap, protectionMap, disabilityTypeMap } = state;
+  const caseMap = async c => ({
+    case_id: c.case_id_display,
+    registration_date: c.registration_date,
+    case_source: c.oscar_number ? 'oscar' : 'primero',
+    disabled: disabilityTypeMap[c.disability_type],
+    type_of_case:
+      c.type_of_case && c.type_of_case.split('_').slice(0, -1).join(' '),
+    sex: sexMap[c.sex],
+    age: c.age,
+    consent_for_reporting: c.consent_reporting ? c.consent_reporting : 'false',
+    protection_concerns: c => {
+      const protections = c.protection_concerns || [];
+      const protection_concerns = protections.map(
+        protection => protectionMap[protection]
+      );
+      return protection_concerns.join(', ');
+    },
+    placement_type: c =>
+      c.type_of_placement &&
+      c.type_of_placement.split('_').slice(0, -1).join(' '),
+
+    province_current: await findValue({
+      uuid: 'province',
+      relation: 'locations_lookup',
+      where: {
+        code: dataValue('location_current'),
+      },
+    })(state),
+    district_current: await findValue({
+      uuid: 'district',
+      relation: 'locations_lookup',
+      where: {
+        code: dataValue('location_current'),
+      },
+    })(state),
+    province_caregiver: await findValue({
+      uuid: 'province',
+      relation: 'locations_lookup',
+      where: {
+        code: dataValue('location_caregiver'),
+      },
+    })(state),
+    district_caregiver: await findValue({
+      uuid: 'district',
+      relation: 'locations_lookup',
+      where: {
+        code: dataValue('location_caregiver'),
+      },
+    })(state),
+  });
+  return { ...state, caseMap };
+});
+
+fn(state => {
+  const { cases, caseMap } = state;
+
+  const chunkSize = 99;
+
+  // Define and create an array of cases.length / 99 chunks of maximum 99 cases
+  const casesChunks = [];
+  for (let i = 0; i < cases.length; i += chunkSize) {
+    const casesChunk = cases.slice(i, i + chunkSize);
+    casesChunks.push(casesChunk);
+  }
+
+  // Upsert and pause for 4 secs between every set of 99 chunks
+  for (let casesChunk of casesChunks) {
+    setTimeout(() => {
+      casesChunk.map(chunk => {
+        return upsert('cases', 'case_id', caseMap(chunk))(state);
+      });
+    }, 4000);
+  }
+});
+
+// TODO: @Mtuchi Another approach is to pass array of casesChunks into the state
+// Then each(chunks[*])
+// fn((state) => {
+//   chunks = [
+//     [case1, case2],
+//     [case3, case4],
+//   ];
+
+//   return { ...state, chunks };
+// });
+
+// each(
+//   "chunks[*]",
+//   fn(async (state) => {
+//     const { data } = state;
+//     each(
+//       "data[*]",
+//       fn((state) => {
+//         const { data } = state;
+//       })
+//     );
+//   })
+// );
 
 each(
   'cases[*]',
@@ -96,12 +192,14 @@ each(
       registration_date: data.registration_date,
       case_source: data.oscar_number ? 'oscar' : 'primero',
       disabled: state.disabilityTypeMap[data.disability_type],
-      type_of_case: c => 
+      type_of_case:
         data.type_of_case &&
         data.type_of_case.split('_').slice(0, -1).join(' '),
       sex: state.sexMap[data.sex],
       age: data.age,
-      consent_for_reporting: data.consent_reporting ? data.consent_reporting : "false",
+      consent_for_reporting: data.consent_reporting
+        ? data.consent_reporting
+        : 'false',
       protection_concerns: c => {
         const protection_concerns = [];
         const protections = data.protection_concerns || [];
@@ -110,10 +208,10 @@ each(
         });
         return protection_concerns.join(', ');
       },
-      placement_type: c => 
+      placement_type: c =>
         data.type_of_placement &&
         data.type_of_placement.split('_').slice(0, -1).join(' '),
-        
+
       province_current: await findValue({
         uuid: 'province',
         relation: 'locations_lookup',
