@@ -78,79 +78,90 @@ fn(state => {
     male: 'Male',
     female: 'Female',
   };
-  
-  
-  
-  
+
+  const deduplicate = (arr, id) => {};
+
+  // TODO: remove this deduplication step
+
+  const { cases } = state;
+  console.log(`from ${cases.length} initial cases we have...`);
+
+  state.cases = Array.from(new Set(cases.map(c => c.case_id_display))).map(
+    id => {
+      return cases.find(c => c.case_id_display === id);
+    }
+  );
 
   return { ...state, protectionMap, serviceTypeMap, disabilityTypeMap, sexMap };
 });
 
-each(
-  'cases[*]',
-  fn(async state => {
-    const { data } = state;
-
-    return upsert('cases', 'case_id', {
-      case_id: data.case_id_display,
-      registration_date: data.registration_date,
-      case_source: data.oscar_number ? 'oscar' : 'primero',
-      disabled: state.disabilityTypeMap[data.disability_type],
-      type_of_case: c => 
-        data.type_of_case &&
-        data.type_of_case.split('_').slice(0, -1).join(' '),
-      sex: state.sexMap[data.sex],
-      age: data.age,
-      consent_for_reporting: data.consent_reporting ? data.consent_reporting : "false",
-      protection_concerns: c => {
-        const protection_concerns = [];
-        const protections = data.protection_concerns || [];
-        protections.forEach(protection => {
-          protection_concerns.push(c.protectionMap[protection]);
-        });
-        return protection_concerns.join(', ');
-      },
-      placement_type: c => 
-        data.type_of_placement &&
-        data.type_of_placement.split('_').slice(0, -1).join(' '),
-        
-      province_current: await findValue({
-        uuid: 'province',
-        relation: 'locations_lookup',
-        where: {
-          code: dataValue('location_current'),
-        },
-      })(state),
-      district_current: await findValue({
-        uuid: 'district',
-        relation: 'locations_lookup',
-        where: {
-          code: dataValue('location_current'),
-        },
-      })(state),
-      province_caregiver: await findValue({
-        uuid: 'province',
-        relation: 'locations_lookup',
-        where: {
-          code: dataValue('location_caregiver'),
-        },
-      })(state),
-      district_caregiver: await findValue({
-        uuid: 'district',
-        relation: 'locations_lookup',
-        where: {
-          code: dataValue('location_caregiver'),
-        },
-      })(state),
-    })(state);
-  })
-);
+sql(() => 'select * from locations_lookup');
 
 fn(state => {
-  console.log('TYPE OF CASE');
-  console.log(state.data.type_of_case);
-  return state;
+  const locations_lookup = state.response.body.rows;
+
+  console.log(`...we have ${state.cases.length} cases to load.`);
+
+  return { ...state, locations_lookup };
 });
+
+upsertMany(
+  'cases',
+  'case_id',
+  state =>
+    state.cases.map(c => {
+      const { locations_lookup } = state;
+
+      const setViaLocation = (arr, searchVal, attributeToReturn) => {
+        const result = arr.find(l => l.code == searchVal);
+
+        if (result) return result[attributeToReturn];
+        return null;
+      };
+
+      // console.log(c.case_id_display);
+
+      return {
+        case_id: c.case_id_display,
+        registration_date: c.registration_date,
+        case_source: c.oscar_number ? 'oscar' : 'primero',
+        disabled: state.disabilityTypeMap[c.disability_type],
+        type_of_case:
+          c.type_of_case && c.type_of_case.split('_').slice(0, -1).join(' '),
+        sex: state.sexMap[c.sex],
+        age: c.age,
+        consent_for_reporting: c.consent_reporting
+          ? c.consent_reporting
+          : 'false',
+        // TODO: determine what value we'd like to put in province_current and how to find it from that table of lookups.
+        // e.g., l.province == 'Kandal'
+        // e.g., c.location_current == '6011101'
+        // e.g., c.location_current == null
+        // e.g., c.location_current == '123'
+        province_current: setViaLocation(
+          locations_lookup,
+          c.location_current,
+          'province'
+        ),
+        district_current: setViaLocation(
+          locations_lookup,
+          c.location_current,
+          'district'
+        ),
+        province_caregiver: setViaLocation(
+          locations_lookup,
+          c.location_caregiver,
+          'province'
+        ),
+        district_caregiver: setViaLocation(
+          locations_lookup,
+          c.location_caregiver,
+          'district'
+        ),
+      };
+    })
+  // { writeSql: true, logValues: true }
+);
 
 fn(state => {
   const allServices = state.cases
@@ -172,10 +183,17 @@ fn(state => {
     .flat()
     .filter(service => service !== undefined);
 
-  return { ...state, allServices };
+  console.log(`from ${allServices.length} services we have...`);
+
+  const deDuplicatedServices = Array.from(
+    new Set(allServices.map(s => s.unique_id))
+  ).map(id => {
+    return allServices.find(s => s.unique_id === id);
+  });
+
+  console.log(`we get... ${deDuplicatedServices.length} deduplicated services`);
+
+  return { ...state, allServices: deDuplicatedServices };
 });
 
-each(
-  'allServices[*]',
-  upsert('services', 'unique_id', state => state.data)
-);
+upsertMany('services', 'unique_id', state => state.allServices);
