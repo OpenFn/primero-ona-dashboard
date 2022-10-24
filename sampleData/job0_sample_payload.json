@@ -1,0 +1,5 @@
+{
+  "trigger" : "Job 0 Succeeds",
+  "page" : 1,
+  "per" : 500
+}
