@@ -14,13 +14,11 @@ fn(state => {
   return {
     ...state,
     dedupArrayOfObjects,
-    metadataForAgeRequest,
-    metadataForTypeofCaseRequest,
   };
 });
 
 fn(state => {
-  const { metadataForTypeofCaseRequest, metadataForAgeRequest } = state;
+  const { metadataForTypeofCaseRequest, metadataForAgeRequest } = state.data;
   if (metadataForTypeofCaseRequest.gecases) {
     getCases(
       {
@@ -43,7 +41,7 @@ fn(state => {
           metadataForTypeofCaseRequest,
         };
       }
-    );
+    )(state);
   }
 
   if (metadataForAgeRequest.getcases) {
@@ -99,4 +97,5 @@ fn(state => {
       }
     );
   }
+  return state;
 });
