@@ -16,6 +16,7 @@ fn(state => {
   };
 
   const pageNextRoundPayload = {
+    trigger: 'Job 0/3 Succeeds',
     metadataForAgeRequest: pageNextRoundDecision(metadataForAgeRequest),
     metadataForTypeofCaseRequest: pageNextRoundDecision(
       metadataForTypeofCaseRequest
