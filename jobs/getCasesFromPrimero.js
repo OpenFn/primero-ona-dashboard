@@ -1,10 +1,10 @@
 fn(state => {
-  const pageForAgeRequest = state.metadataForAgeRequest.page
-    ? state.metadataForAgeRequest.page
+  const pageForAgeRequest = state.data.metadataForAgeRequest.page
+    ? state.data.metadataForAgeRequest.page
     : 1;
 
-  const pageForTypeOfCaseRequest = state.metadataForTypeofCaseRequest.page
-    ? state.metadataForTypeofCaseRequest.page
+  const pageForTypeOfCaseRequest = state.data.metadataForTypeofCaseRequest.page
+    ? state.data.metadataForTypeofCaseRequest.page
     : 1;
 
   console.log('pageForAgeRequest:', pageForAgeRequest);
