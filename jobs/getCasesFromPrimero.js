@@ -60,7 +60,7 @@ getCases(
     // console.log('typeRun', cases);
     // console.log('ageRun', data);
 
-    console.log('Cases with duplicates', allCases.length);
+    console.log('allCases', allCases.length);
 
     const casesUIDS = allCases.map(c => c.case_id);
 
