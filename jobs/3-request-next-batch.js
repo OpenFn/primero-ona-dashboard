@@ -1,4 +1,4 @@
-// post to openfnInboxUrl the next round payload
+// Your job goes here.
 fn(state => {
   const { metadataForAgeRequest, metadataForTypeofCaseRequest } = state;
   // decide if next round is important
