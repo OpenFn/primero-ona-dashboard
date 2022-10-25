@@ -12,11 +12,9 @@ fn(state => {
 
   //TODO: @Mtuchi, use a helper functiondefined in language-common instead
   const dedupArrayOfObjects = (array, uid) => {
-    return Array.from(new Set(array.map(a => a[uid])))
-      .map(id => {
-        return array.find(a => a[uid] === id);
-      })
-      .flat();
+    return Array.from(new Set(array.map(a => a[uid]))).map(id => {
+      return array.find(a => a[uid] === id);
+    });
   };
 
   return {
@@ -41,7 +39,7 @@ getCases(
 
     return {
       ...state,
-      cases: [data],
+      cases: data,
       metadataForAgeRequest: metadata,
     };
   }
@@ -59,6 +57,10 @@ getCases(
   state => {
     const { cases, data, metadata } = state;
     const allCases = [...cases, ...data];
+    // console.log('typeRun', cases);
+    // console.log('ageRun', data);
+
+    console.log('Cases with duplicates', allCases.length);
 
     const casesUIDS = allCases.map(c => c.case_id);
 
@@ -67,20 +69,18 @@ getCases(
 
     const casesDuplicateUIDS = [...new Set(findDuplicates(casesUIDS))];
 
-    const cleanCases = casesDuplicateUIDS
-      .map(uid => {
-        console.log(uid, 'case_id has duplicates');
-        const casesWithDuplicates = allCases.filter(c => c.case_id == uid);
-        console.log(
-          'cases with the same case_id: ',
-          JSON.stringify(casesWithDuplicates, null, 2)
-        );
+    const casesWithDuplicates = casesDuplicateUIDS.map(uid => {
+      console.log(uid, 'case_id has duplicates');
+      return allCases.filter(c => c.case_id === uid);
+    });
+    console.log(
+      'cases with the same case_id: ',
+      JSON.stringify(casesWithDuplicates, null, 4)
+    );
 
-        return allCases.filter(c => c.case_id !== uid);
-      })
-      .flat();
-
-    console.log('Cases with duplicates', allCases.length);
+    const cleanCases = allCases.filter(
+      c => !casesDuplicateUIDS.includes(c.case_id)
+    );
 
     console.log('Cleaned Cases', cleanCases.length);
 
@@ -88,6 +88,7 @@ getCases(
       ...state,
       cases: cleanCases,
       metadataForTypeofCaseRequest: metadata,
+      casesWithDuplicates,
       references: [],
     };
   }
