@@ -12,8 +12,8 @@ fn(state => {
       metadata['page'] = metadata['page'] + 1;
       return metadata;
     }
-
-    return { ...metadata, getcases: false };
+    metadata['getcases'] = false;
+    return metadata;
   };
   const initialMeta = {
     per: 500,

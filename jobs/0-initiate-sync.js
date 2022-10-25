@@ -13,7 +13,8 @@ fn(state => {
       return metadata;
     }
 
-    return { ...metadata, getcases: false };
+    metadata['getcases'] = false;
+    return metadata;
   };
   const initialMeta = {
     per: 500,
