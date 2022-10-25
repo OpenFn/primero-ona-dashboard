@@ -1,4 +1,4 @@
-// Your job goes here.
+
 // Setup initial payload for initialState
 // fn(state => {
 //   if (!state.data) {
