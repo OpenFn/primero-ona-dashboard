@@ -1,17 +1,30 @@
 fn(state => {
-  const updatePaginationCursor = (cursoName, cursor) => {
-    console.log(`Last sync paginantion for '${cursoName}' was page ${cursor}`);
+  const pageForAgeRequest = state.metadataForAgeRequest.page
+    ? state.metadataForAgeRequest.page
+    : 1;
 
-    const manualPaginationCursor = 1;
+  const pageForTypeOfCaseRequest = state.metadataForTypeofCaseRequest.page
+    ? state.metadataForTypeofCaseRequest.page
+    : 1;
 
-    const updatedCursor =
-      cursor != null && cursor != '' ? cursor++ : manualPaginationCursor;
+  console.log('pageForAgeRequest:', pageForAgeRequest);
+  console.log('pageForTypeOfCaseRequest:', pageForTypeOfCaseRequest);
 
-    console.log(`New pagination for '${cursoName}' is at ${updatedCursor}`);
-    return updatedCursor;
+  //TODO: @Mtuchi, use a helper functiondefined in language-common instead
+  const dedupArrayOfObjects = (array, uid) => {
+    return Array.from(new Set(array.map(a => a[uid])))
+      .map(id => {
+        return array.find(a => a[uid] === id);
+      })
+      .flat();
   };
 
-  return { ...state, updatePaginationCursor };
+  return {
+    ...state,
+    dedupArrayOfObjects,
+    pageForAgeRequest,
+    pageForTypeOfCaseRequest,
+  };
 });
 
 getCases(
@@ -20,28 +33,17 @@ getCases(
     type_of_case: 'children_undergoing_reintegration_55427',
     created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
     per: 500,
-    page: state.typeOfCaseLastRun,
+    page: state.pageForTypeOfCaseRequest,
   },
   null,
   state => {
-    const { data, updatePaginationCursor, typeOfCaseLastRun } = state;
-    if (data.length > 0) {
-      // Update cursor for typeOfCaseLastRun
-      const updateTypeOfCaseLastRun = updatePaginationCursor(
-        'typeOfCaseLastRun',
-        typeOfCaseLastRun
-      );
-      return {
-        ...state,
-        cases: [data],
-        typeOfCaseLastRun: updateTypeOfCaseLastRun,
-      };
-    }
-    console.log(
-      `No more cases to sync for 'type_of_case: 'children_undergoing_reintegration_55427'',`
-    );
-    console.log('The latest pagination cursor was at', state.typeOfCaseLastRun);
-    return state;
+    const { data, metadata } = state;
+
+    return {
+      ...state,
+      cases: [data],
+      metadataForAgeRequest: metadata,
+    };
   }
 );
 
@@ -51,33 +53,42 @@ getCases(
     created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
     age: '0..18',
     per: 500,
-    page: state.ageLastRun,
+    page: state.pageForAgeRequest,
   },
   null,
   state => {
-    const { data, updatePaginationCursor, ageLastRun } = state;
-    if (data.length > 0) {
-      // Update cursor for ageLastRun
-      const updateAgeLastRun = updatePaginationCursor('ageLastRun', ageLastRun);
-      return {
-        ...state,
-        cases: [...state.cases, data],
-        references: [],
-        ageLastRun: updateAgeLastRun,
-      };
-    }
-    console.log(`No more cases to sync for 'age: '0..18''`);
-    console.log('The latest pagination cursor was at', state.ageLastRun);
-    return state;
+    const { cases, data, metadata } = state;
+    const allCases = [...cases, ...data];
+
+    const casesUIDS = allCases.map(c => c.case_id);
+
+    const findDuplicates = arr =>
+      arr.filter((item, index) => arr.indexOf(item) != index);
+
+    const casesDuplicateUIDS = [...new Set(findDuplicates(casesUIDS))];
+
+    const cleanCases = casesDuplicateUIDS
+      .map(uid => {
+        console.log(uid, 'case_id has duplicates');
+        const casesWithDuplicates = allCases.filter(c => c.case_id == uid);
+        console.log(
+          'cases with the same case_id: ',
+          JSON.stringify(casesWithDuplicates, null, 2)
+        );
+
+        return allCases.filter(c => c.case_id !== uid);
+      })
+      .flat();
+
+    console.log('Cases with duplicates', allCases.length);
+
+    console.log('Cleaned Cases', cleanCases.length);
+
+    return {
+      ...state,
+      cases: cleanCases,
+      metadataForTypeofCaseRequest: metadata,
+      references: [],
+    };
   }
 );
-
-// fn(state => {
-//   let { lastRunPagination } = state;
-//   lastRunPagination++;
-
-//   console.log('Next sync start pagination:', lastRunPagination);
-//   return { ...state, lastRunPagination };
-// });
-// add a fn block that add's an attribute to state.
-// And later use that attribute in the next run of the job.
