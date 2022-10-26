@@ -24,7 +24,7 @@ fn(state => {
   );
 
   const shouldTrigger = () => {
-    return metaForAgeReq.getcases && metaForTypeOfCaseReq.getcases
+    return !metaForAgeReq.getcases && !metaForTypeOfCaseReq.getcases
       ? 'Job 0/3 Succeeds'
       : null;
   };
