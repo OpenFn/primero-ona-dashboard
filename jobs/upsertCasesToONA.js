@@ -197,3 +197,7 @@ fn(state => {
 });
 
 upsertMany('services', 'unique_id', state => state.allServices);
+
+fn(state => {
+  return { ...state };
+});

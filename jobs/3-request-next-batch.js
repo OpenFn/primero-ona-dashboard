@@ -1,4 +1,4 @@
-// Your job goes here.
+// post to openfnInboxUrl pageNextRoundPayload
 fn(state => {
   const { metadataForAgeRequest, metadataForTypeofCaseRequest } = state;
 
@@ -12,22 +12,16 @@ fn(state => {
       metadata['page'] = metadata['page'] + 1;
       return metadata;
     }
+
     metadata['getcases'] = false;
     return metadata;
   };
-  const initialMeta = {
-    per: 500,
-    page: 1,
-    getcases: true,
-  };
 
-  const metaForAgeReq = metadataForAgeRequest
-    ? pageNextRoundDecision(metadataForAgeRequest)
-    : initialMeta;
+  const metaForAgeReq = pageNextRoundDecision(metadataForAgeRequest);
 
-  const metaForTypeOfCaseReq = metadataForTypeofCaseRequest
-    ? pageNextRoundDecision(metadataForTypeofCaseRequest)
-    : initialMeta;
+  const metaForTypeOfCaseReq = pageNextRoundDecision(
+    metadataForTypeofCaseRequest
+  );
 
   const shouldTrigger = () => {
     return metaForAgeReq.getcases && metaForTypeOfCaseReq.getcases
