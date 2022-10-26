@@ -4,21 +4,15 @@ fn(state => {
   console.log('pageForAgeRequest:', metadataForAgeRequest.page);
   console.log('pageForTypeOfCaseRequest:', metadataForTypeofCaseRequest.page);
 
-  //TODO: @Mtuchi, use a helper functiondefined in language-common instead
-  const dedupArrayOfObjects = (array, uid) => {
-    return Array.from(new Set(array.map(a => a[uid]))).map(id => {
-      return array.find(a => a[uid] === id);
-    });
-  };
-
   return {
     ...state,
-    dedupArrayOfObjects,
+    metadataForAgeRequest,
+    metadataForTypeofCaseRequest,
   };
 });
 
 fn(state => {
-  const { metadataForTypeofCaseRequest, metadataForAgeRequest } = state.data;
+  const { metadataForTypeofCaseRequest } = state;
 
   if (!metadataForTypeofCaseRequest.getcases) return state;
 
@@ -41,7 +35,6 @@ fn(state => {
         ...state,
         cases: data,
         metadataForTypeofCaseRequest,
-        metadataForAgeRequest,
       };
     }
   )(state);
@@ -61,9 +54,9 @@ fn(state => {
     },
     null,
     state => {
-      console.log(state.cases);
-      const { cases, data, metadata } = state;
-      const allCases = [...cases, ...data];
+      const { data, metadata } = state;
+      const typeOfCaseCases = state.cases ? state.cases : [];
+      const allCases = [...typeOfCaseCases, ...data];
 
       console.log('allCases', allCases.length);
 
@@ -75,26 +68,39 @@ fn(state => {
       const casesDuplicateUIDS = [...new Set(findDuplicates(casesUIDS))];
 
       const casesWithDuplicates = casesDuplicateUIDS.map(uid => {
-        console.log(uid, 'case_id has duplicates');
+        if (uid.length === 0) {
+          console.log('case_id is empty');
+        } else {
+          console.log(uid, 'case_id has duplicates');
+        }
         return allCases.filter(c => c.case_id === uid);
       });
-      console.log(
-        'cases with the same case_id: ',
-        JSON.stringify(casesWithDuplicates, null, 4)
-      );
+      // console.log(
+      //   'cases with the same case_id: ',
+      //   JSON.stringify(casesWithDuplicates, null, 4)
+      // );
 
-      const cleanCases = allCases.filter(
-        c => !casesDuplicateUIDS.includes(c.case_id)
-      );
+      const deDuplicatedCases = Array.from(
+        new Set(allCases.map(s => s.case_id))
+      )
+        .map(id => {
+          return allCases.find(s => s.case_id === id);
+        })
+        .flat();
 
-      console.log('Cleaned Cases', cleanCases.length);
+      // console.log(
+      //   'deDuplicatedCases',
+      //   JSON.stringify(deDuplicatedCases, null, 4)
+      // );
+
+      console.log('deDuplicatedCases', deDuplicatedCases.length);
       metadataForAgeRequest['total'] = metadata.total;
       metadataForAgeRequest['page'] = metadata.page;
       metadataForAgeRequest['per'] = metadata.per;
 
       return {
         ...state,
-        cases: cleanCases,
+        cases: deDuplicatedCases,
         metadataForAgeRequest,
         casesWithDuplicates,
         references: [],
