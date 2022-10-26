@@ -19,83 +19,86 @@ fn(state => {
 
 fn(state => {
   const { metadataForTypeofCaseRequest, metadataForAgeRequest } = state.data;
-  if (metadataForTypeofCaseRequest.gecases) {
-    getCases(
-      {
-        remote: true,
-        type_of_case: 'children_undergoing_reintegration_55427',
-        created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
-        per: 500,
-        page: metadataForTypeofCaseRequest.page,
-      },
-      null,
-      state => {
-        const { data, metadata } = state;
-        metadataForTypeofCaseRequest['total'] = metadata.total;
-        metadataForTypeofCaseRequest['page'] = metadata.page;
-        metadataForTypeofCaseRequest['per'] = metadata.per;
 
-        return {
-          ...state,
-          cases: data,
-          metadataForTypeofCaseRequest,
-        };
-      }
-    )(state);
-  }
+  if (!metadataForTypeofCaseRequest.getcases) return state;
 
-  if (metadataForAgeRequest.getcases) {
-    getCases(
-      {
-        remote: true,
-        created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
-        age: '0..18',
-        per: 500,
-        page: metadataForAgeRequest.page,
-      },
-      null,
-      state => {
-        const { cases, data, metadata } = state;
-        const allCases = [...cases, ...data];
-        // console.log('typeRun', cases);
-        // console.log('ageRun', data);
+  return getCases(
+    {
+      remote: true,
+      type_of_case: 'children_undergoing_reintegration_55427',
+      created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
+      per: 500,
+      page: metadataForTypeofCaseRequest.page,
+    },
+    null,
+    state => {
+      const { data, metadata } = state;
+      metadataForTypeofCaseRequest['total'] = metadata.total;
+      metadataForTypeofCaseRequest['page'] = metadata.page;
+      metadataForTypeofCaseRequest['per'] = metadata.per;
 
-        console.log('allCases', allCases.length);
+      return {
+        ...state,
+        cases: data,
+        metadataForTypeofCaseRequest,
+        metadataForAgeRequest,
+      };
+    }
+  )(state);
+});
 
-        const casesUIDS = allCases.map(c => c.case_id);
+fn(state => {
+  const { metadataForAgeRequest } = state;
 
-        const findDuplicates = arr =>
-          arr.filter((item, index) => arr.indexOf(item) != index);
+  if (!metadataForAgeRequest.getcases) return state;
+  return getCases(
+    {
+      remote: true,
+      created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
+      age: '0..18',
+      per: 500,
+      page: metadataForAgeRequest.page,
+    },
+    null,
+    state => {
+      console.log(state.cases);
+      const { cases, data, metadata } = state;
+      const allCases = [...cases, ...data];
 
-        const casesDuplicateUIDS = [...new Set(findDuplicates(casesUIDS))];
+      console.log('allCases', allCases.length);
 
-        const casesWithDuplicates = casesDuplicateUIDS.map(uid => {
-          console.log(uid, 'case_id has duplicates');
-          return allCases.filter(c => c.case_id === uid);
-        });
-        console.log(
-          'cases with the same case_id: ',
-          JSON.stringify(casesWithDuplicates, null, 4)
-        );
+      const casesUIDS = allCases.map(c => c.case_id);
 
-        const cleanCases = allCases.filter(
-          c => !casesDuplicateUIDS.includes(c.case_id)
-        );
+      const findDuplicates = arr =>
+        arr.filter((item, index) => arr.indexOf(item) != index);
 
-        console.log('Cleaned Cases', cleanCases.length);
-        metadataForTypeofCaseRequest['total'] = metadata.total;
-        metadataForTypeofCaseRequest['page'] = metadata.page;
-        metadataForTypeofCaseRequest['per'] = metadata.per;
+      const casesDuplicateUIDS = [...new Set(findDuplicates(casesUIDS))];
 
-        return {
-          ...state,
-          cases: cleanCases,
-          metadataForTypeofCaseRequest,
-          casesWithDuplicates,
-          references: [],
-        };
-      }
-    );
-  }
-  return state;
+      const casesWithDuplicates = casesDuplicateUIDS.map(uid => {
+        console.log(uid, 'case_id has duplicates');
+        return allCases.filter(c => c.case_id === uid);
+      });
+      console.log(
+        'cases with the same case_id: ',
+        JSON.stringify(casesWithDuplicates, null, 4)
+      );
+
+      const cleanCases = allCases.filter(
+        c => !casesDuplicateUIDS.includes(c.case_id)
+      );
+
+      console.log('Cleaned Cases', cleanCases.length);
+      metadataForAgeRequest['total'] = metadata.total;
+      metadataForAgeRequest['page'] = metadata.page;
+      metadataForAgeRequest['per'] = metadata.per;
+
+      return {
+        ...state,
+        cases: cleanCases,
+        metadataForAgeRequest,
+        casesWithDuplicates,
+        references: [],
+      };
+    }
+  )(state);
 });
