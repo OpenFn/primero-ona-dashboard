@@ -41,7 +41,7 @@ fn(state => {
       JSON.stringify(pageNextRoundPayload, null, 2)
     );
     return post(`${state.configuration.inboxUrl}`, {
-      body: { pageNextRoundPayload },
+      body: pageNextRoundPayload,
     })(state);
   }
 
