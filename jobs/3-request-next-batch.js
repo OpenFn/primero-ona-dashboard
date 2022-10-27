@@ -40,11 +40,11 @@ fn(state => {
     JSON.stringify(pageNextRoundPayload, null, 2)
   );
 
-  return { ...state, pageNextRoundPayload };
-});
+  if (shouldTrigger() !== null) {
+    return post(`${state.configuration.inboxUrl}`, {
+      body: { pageNextRoundPayload },
+    })(state);
+  }
 
-post(`${state.configuration.inboxUrl}`, {
-  body: state => {
-    return state.pageNextRoundPayload;
-  },
+  return state;
 });
