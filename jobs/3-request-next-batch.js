@@ -35,16 +35,16 @@ fn(state => {
     metadataForTypeofCaseRequest: metaForTypeOfCaseReq,
   };
 
-  console.log(
-    'Next round of getCases metadata',
-    JSON.stringify(pageNextRoundPayload, null, 2)
-  );
-
   if (shouldTrigger() !== null) {
+    console.log(
+      'Next round of getCases metadata',
+      JSON.stringify(pageNextRoundPayload, null, 2)
+    );
     return post(`${state.configuration.inboxUrl}`, {
       body: { pageNextRoundPayload },
     })(state);
   }
 
+  console.log('No more cases to query');
   return state;
 });
