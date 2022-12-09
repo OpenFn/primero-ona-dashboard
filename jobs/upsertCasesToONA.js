@@ -140,16 +140,16 @@ upsertMany(
       );
 
       const location = c.location_current;
-      const province = location && location.subtring(0, 2);
-      const district = location && location.subtring(0, 4);
+      const province = location && location.substring(0, 2);
+      const district = location && location.substring(0, 4);
       console.log('province code ::', province);
       console.log('district code ::', district);
 
       const locationCaregiver = c.location_caregiver;
       const provinceCaregiver =
-        locationCaregiver && locationCaregiver.subtring(0, 2);
+        locationCaregiver && locationCaregiver.substring(0, 2);
       const districtCaregiver =
-        locationCaregiver && locationCaregiver.subtring(0, 4);
+        locationCaregiver && locationCaregiver.substring(0, 4);
       console.log('Caregiver province code ::', provinceCaregiver);
       console.log('Caregiver district code ::', districtCaregiver);
 
