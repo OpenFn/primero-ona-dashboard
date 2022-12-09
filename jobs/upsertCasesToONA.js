@@ -131,6 +131,17 @@ upsertMany(
           c.type_of_case && c.type_of_case.split('_').slice(0, -1).join(' '),
         sex: state.sexMap[c.sex] || c.sex,
         age: c.age,
+        protection_concerns: c => {
+          const protection_concerns = [];
+          const protections = data.protection_concerns || [];
+          protections.forEach(protection => {
+            protection_concerns.push(c.protectionMap[protection]);
+          });
+          return protection_concerns.join(', ');
+        },
+        placement_type: c =>
+          data.type_of_placement &&
+          data.type_of_placement.split('_').slice(0, -1).join(' '),
         consent_for_reporting: c.consent_reporting
           ? c.consent_reporting
           : 'false',
