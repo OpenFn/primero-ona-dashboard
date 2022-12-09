@@ -120,7 +120,20 @@ upsertMany(
         return null;
       };
 
+      const placement = c.type_of_placement;
+      console.log('placement ::', placement);
+      const formattedPlacement =
+        placement && placement.split('_').slice(0, -1).join(' ');
+
       // console.log(c.case_id_display);
+
+      const protectionConcerns = [];
+      const protections = c.protection_concerns || [];
+      console.log('protections ::', protections);
+      protections.forEach(protection => {
+        protectionConcerns.push(c.protectionMap[protection]);
+      });
+      const translatedProtectionConcerns = protectionConcerns.join(', ');
 
       return {
         case_id: c.case_id_display,
@@ -131,20 +144,8 @@ upsertMany(
           c.type_of_case && c.type_of_case.split('_').slice(0, -1).join(' '),
         sex: state.sexMap[c.sex] || c.sex,
         age: c.age,
-        protection_concerns: c => {
-          const protectionConcerns = [];
-          const protections = c.protection_concerns || [];
-          console.log('protections ::', protections);
-          protections.forEach(protection => {
-            protectionConcerns.push(c.protectionMap[protection]);
-          });
-          return protectionConcerns.join(', ');
-        },
-        placement_type: c => {
-          const placement = c.type_of_placement;
-          console.log('placement ::', placement);
-          return placement && placement.split('_').slice(0, -1).join(' ');
-        },
+        protection_concerns: translatedProtectionConcerns,
+        placement_type: formattedPlacement,
         consent_for_reporting: c.consent_reporting
           ? c.consent_reporting
           : 'false',
@@ -174,8 +175,8 @@ upsertMany(
           'district'
         ),
       };
-    })
-  // { writeSql: true, logValues: true }
+    }),
+  { writeSql: true, logValues: true }
 );
 
 fn(state => {
