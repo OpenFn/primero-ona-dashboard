@@ -124,14 +124,13 @@ upsertMany(
       console.log('placement ::', placement);
       const formattedPlacement =
         placement && placement.split('_').slice(0, -1).join(' ');
-
-      // console.log(c.case_id_display);
+      console.log('formatted placement ::', placement);
 
       const protectionConcerns = [];
       const protections = c.protection_concerns || [];
-      console.log('protections ::', protections);
+      //console.log('protections ::', protections);
       protections.forEach(protection => {
-        console.log('each protection ::', protection);
+        //console.log('each protection ::', protection);
         protectionConcerns.push(state.protectionMap[protection]);
       });
       const translatedProtectionConcerns = protectionConcerns.join(', ');
