@@ -131,9 +131,14 @@ upsertMany(
       const protections = c.protection_concerns || [];
       console.log('protections ::', protections);
       protections.forEach(protection => {
-        protectionConcerns.push(c.protectionMap[protection]);
+        console.log('each protection ::', protection);
+        protectionConcerns.push(state.protectionMap[protection]);
       });
       const translatedProtectionConcerns = protectionConcerns.join(', ');
+      console.log(
+        'output for protection_concerns ::',
+        translatedProtectionConcerns
+      );
 
       return {
         case_id: c.case_id_display,
