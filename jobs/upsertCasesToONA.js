@@ -77,6 +77,7 @@ fn(state => {
   const sexMap = {
     male: 'Male',
     female: 'Female',
+    other: 'Other',
   };
 
   const deduplicate = (arr, id) => {};
@@ -128,7 +129,7 @@ upsertMany(
         disabled: state.disabilityTypeMap[c.disability_type],
         type_of_case:
           c.type_of_case && c.type_of_case.split('_').slice(0, -1).join(' '),
-        sex: state.sexMap[c.sex],
+        sex: state.sexMap[c.sex] || c.sex,
         age: c.age,
         consent_for_reporting: c.consent_reporting
           ? c.consent_reporting
