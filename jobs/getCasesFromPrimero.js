@@ -60,7 +60,7 @@ fn(state => {
 
       console.log('allCases', allCases.length);
 
-      const casesUIDS = allCases.map(c => c.case_id);
+      const casesUIDS = allCases.map(c => c.case_id_display);
 
       const findDuplicates = arr =>
         arr.filter((item, index) => arr.indexOf(item) != index);
@@ -69,9 +69,9 @@ fn(state => {
 
       const casesWithDuplicates = casesDuplicateUIDS.map(uid => {
         if (uid.length === 0) {
-          console.log('case_id is empty');
+          console.log('case_id_display is empty');
         } else {
-          console.log(uid, 'case_id has duplicates');
+          console.log(uid, 'case_id_display has duplicates');
         }
         return allCases.filter(c => c.case_id === uid);
       });
