@@ -139,6 +139,20 @@ upsertMany(
         translatedProtectionConcerns
       );
 
+      const location = c.location_current;
+      const province = location && location.subtring(0, 2);
+      const district = location && location.subtring(0, 4);
+      console.log('province code ::', province);
+      console.log('district code ::', district);
+
+      const locationCaregiver = c.location_caregiver;
+      const provinceCaregiver =
+        locationCaregiver && locationCaregiver.subtring(0, 2);
+      const districtCaregiver =
+        locationCaregiver && locationCaregiver.subtring(0, 4);
+      console.log('Caregiver province code ::', provinceCaregiver);
+      console.log('Caregiver district code ::', districtCaregiver);
+
       return {
         case_id: c.case_id_display,
         registration_date: c.registration_date,
@@ -153,29 +167,28 @@ upsertMany(
         consent_for_reporting: c.consent_reporting
           ? c.consent_reporting
           : 'false',
-        // TODO: determine what value we'd like to put in province_current and how to find it from that table of lookups.
-        // e.g., l.province == 'Kandal'
-        // e.g., c.location_current == '6011101'
-        // e.g., c.location_current == null
-        // e.g., c.location_current == '123'
+        // Here we look for the related locations on the locations_lookup table
+        // e.g., if c.location_current == '10060802'
+        // province == '10' (Kratie)
+        // district == '1006' (Chetr Borei)
         province_current: setViaLocation(
           locations_lookup,
-          c.location_current,
+          province,
           'province'
         ),
         district_current: setViaLocation(
           locations_lookup,
-          c.location_current,
+          district,
           'district'
         ),
         province_caregiver: setViaLocation(
           locations_lookup,
-          c.location_caregiver,
+          provinceCaregiver,
           'province'
         ),
         district_caregiver: setViaLocation(
           locations_lookup,
-          c.location_caregiver,
+          districtCaregiver,
           'district'
         ),
       };
