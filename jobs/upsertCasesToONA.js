@@ -133,15 +133,16 @@ upsertMany(
         age: c.age,
         protection_concerns: c => {
           const protection_concerns = [];
-          const protections = data.protection_concerns || [];
+          const protections = c.protection_concerns || [];
+          console.log('protections ::', protections);
           protections.forEach(protection => {
             protection_concerns.push(c.protectionMap[protection]);
           });
           return protection_concerns.join(', ');
         },
         placement_type: c =>
-          data.type_of_placement &&
-          data.type_of_placement.split('_').slice(0, -1).join(' '),
+          c.type_of_placement &&
+          c.type_of_placement.split('_').slice(0, -1).join(' '),
         consent_for_reporting: c.consent_reporting
           ? c.consent_reporting
           : 'false',
