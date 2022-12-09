@@ -132,17 +132,19 @@ upsertMany(
         sex: state.sexMap[c.sex] || c.sex,
         age: c.age,
         protection_concerns: c => {
-          const protection_concerns = [];
+          const protectionConcerns = [];
           const protections = c.protection_concerns || [];
           console.log('protections ::', protections);
           protections.forEach(protection => {
-            protection_concerns.push(c.protectionMap[protection]);
+            protectionConcerns.push(c.protectionMap[protection]);
           });
-          return protection_concerns.join(', ');
+          return protectionConcerns.join(', ');
         },
-        placement_type: c =>
-          c.type_of_placement &&
-          c.type_of_placement.split('_').slice(0, -1).join(' '),
+        placement_type: c => {
+          const placement = c.type_of_placement;
+          console.log('placement ::', placement);
+          return placement && placement.split('_').slice(0, -1).join(' ');
+        },
         consent_for_reporting: c.consent_reporting
           ? c.consent_reporting
           : 'false',
