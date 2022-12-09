@@ -124,7 +124,7 @@ upsertMany(
       console.log('placement ::', placement);
       const formattedPlacement =
         placement && placement.split('_').slice(0, -1).join(' ');
-      console.log('formatted placement ::', placement);
+      console.log('formatted placement ::', formattedPlacement);
 
       const protectionConcerns = [];
       const protections = c.protection_concerns || [];
