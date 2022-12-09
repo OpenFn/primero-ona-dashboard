@@ -140,18 +140,13 @@ upsertMany(
       );
 
       const location = c.location_current;
-      const province = location && location.substring(0, 2);
-      const district = location && location.substring(0, 4);
-      console.log('province code ::', province);
-      console.log('district code ::', district);
+      const districtCode = location && location.substring(0, 4);
+      console.log('district code ::', districtCode);
 
       const locationCaregiver = c.location_caregiver;
-      const provinceCaregiver =
-        locationCaregiver && locationCaregiver.substring(0, 2);
-      const districtCaregiver =
+      const districtCaregiverCode =
         locationCaregiver && locationCaregiver.substring(0, 4);
-      console.log('Caregiver province code ::', provinceCaregiver);
-      console.log('Caregiver district code ::', districtCaregiver);
+      console.log('Caregiver district code ::', districtCaregiverCode);
 
       return {
         case_id: c.case_id_display,
@@ -173,22 +168,22 @@ upsertMany(
         // district == '1006' (Chetr Borei)
         province_current: setViaLocation(
           locations_lookup,
-          province,
+          districtCode,
           'province'
         ),
         district_current: setViaLocation(
           locations_lookup,
-          district,
+          districtCode,
           'district'
         ),
         province_caregiver: setViaLocation(
           locations_lookup,
-          provinceCaregiver,
+          districtCaregiverCode,
           'province'
         ),
         district_caregiver: setViaLocation(
           locations_lookup,
-          districtCaregiver,
+          districtCaregiverCode,
           'district'
         ),
       };
