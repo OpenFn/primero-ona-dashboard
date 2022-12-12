@@ -149,8 +149,8 @@ upsertMany(
       console.log('Caregiver district code ::', districtCaregiverCode);
 
       return {
-        case_id: c.case_id,
-        //case_id: c.case_id_display,
+        //case_id: c.case_id,
+        case_id: c.case_id_display,
         registration_date: c.registration_date,
         case_source: c.oscar_number ? 'oscar' : 'primero',
         disabled: state.disabilityTypeMap[c.disability_type],
@@ -195,8 +195,8 @@ upsertMany(
 fn(state => {
   const allServices = state.cases
     .map(c => {
-      const case_id = c.case_id;
-      //const case_id = c.case_id_display;
+      //const case_id = c.case_id;
+      const case_id = c.case_id_display;
       const services =
         c.services_section &&
         c.services_section.map(service => ({
