@@ -20,7 +20,7 @@ fn(state => {
     {
       enabled: true,
       type_of_case: 'children_undergoing_reintegration_55427',
-      created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
+      //created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
       per: 500,
       page: metadataForTypeofCaseRequest.page,
     },
@@ -47,7 +47,7 @@ fn(state => {
   return getCases(
     {
       enabled: true,
-      created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
+      //created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
       age: '0..18',
       per: 500,
       page: metadataForAgeRequest.page,
