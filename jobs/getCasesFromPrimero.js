@@ -60,7 +60,7 @@ fn(state => {
 
       console.log('allCases', allCases.length);
 
-      const casesUIDS = allCases.map(c => c.id);
+      const casesUIDS = allCases.map(c => c.case_id);
 
       const findDuplicates = arr =>
         arr.filter((item, index) => arr.indexOf(item) != index);
@@ -73,7 +73,7 @@ fn(state => {
         } else {
           console.log(uid, 'case_id_display has duplicates');
         }
-        return allCases.filter(c => c.id === uid);
+        return allCases.filter(c => c.case_id === uid);
       });
       console.log(
         'cases with the same case_id_display: ',
@@ -81,10 +81,10 @@ fn(state => {
       );
 
       const deDuplicatedCases = Array.from(
-        new Set(allCases.map(s => s.id))
+        new Set(allCases.map(s => s.case_id))
       )
         .map(id => {
-          return allCases.find(s => s.id === id);
+          return allCases.find(s => s.case_id === id);
         })
         .flat();
 
