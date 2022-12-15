@@ -119,6 +119,8 @@ upsertMany(
         if (result) return result[attributeToReturn];
         return null;
       };
+      console.log('case_id_display ::', c.case_id_display);
+      console.log('record id ::', c.id);
 
       const placement = c.type_of_placement;
       console.log('placement ::', placement);
