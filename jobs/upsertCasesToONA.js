@@ -142,12 +142,25 @@ upsertMany(
       );
 
       const location = c.location_current;
-      const districtCode = location && location.length===5 ? location.substring(0, 3) : location ? location.substring(0, 4) : location;
+      const districtCode =
+        (location && location.length === 3) ||
+        (location && location.length === 5) ||
+        (location && location.length === 7)
+          ? location.substring(0, 3)
+          : location
+          ? location.substring(0, 4)
+          : location;
       console.log('district code ::', districtCode);
 
       const locationCaregiver = c.location_caregiver;
       const districtCaregiverCode =
-        locationCaregiver && locationCaregiver.length===5 ? locationCaregiver.substring(0, 3) : locationCaregiver ? locationCaregiver.substring(0, 4) : locationCaregiver;
+        (locationCaregiver && locationCaregiver.length === 3) ||
+        (locationCaregiver && locationCaregiver.length === 5) ||
+        (locationCaregiver && locationCaregiver.length === 7)
+          ? locationCaregiver.substring(0, 3)
+          : locationCaregiver
+          ? locationCaregiver.substring(0, 4)
+          : locationCaregiver;
       console.log('Caregiver district code ::', districtCaregiverCode);
 
       return {
