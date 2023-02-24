@@ -21,8 +21,10 @@ This is an automated flow which is triggered by a cron job scheduled to run on J
 2. These messages will then trigger the **second job**, _which maps and upserts that data to the ONA database._ 
 
 Please see this data diagram for a review of the solution:   
-- (PDF) - [Data Flow Diagram PDF Copy](https://drive.google.com/drive/folders/1IyBPiECLr2nmurzshzdfWV8OeweGgNAY?usp=sharing)  
-- (Lucidchart) - [Data Flow Diagram Lucidchart](https://lucid.app/lucidchart/f7f7607f-8cb0-46d3-b00a-a4171a5ee823/edit?invitationId=inv_dfb0977f-5c8b-48ed-9678-58e7016b795d&page=k9buV_utGYNG#)
+**[Data Flow Diagram](https://lucid.app/lucidchart/f7f7607f-8cb0-46d3-b00a-a4171a5ee823/edit?invitationId=inv_dfb0977f-5c8b-48ed-9678-58e7016b795d&page=k9buV_utGYNG#) (Lucidchart Link)** 
+<img width="1122" alt="image" src="https://user-images.githubusercontent.com/80456839/221149369-5ca8ea4f-4603-4bf4-8dca-bcd041fa8e5a.png">
+
+
 
 ## Adaptors
 1. `language-primero` to access Primero
