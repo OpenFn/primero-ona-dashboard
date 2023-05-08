@@ -182,7 +182,7 @@ upsertMany(
         // e.g., if c.location_current == '10060802'
         // province == '10' (Kratie)
         // district == '1006' (Chetr Borei)
-        location_code: location_current,
+        location_code: c.location_current,
         province_current: setViaLocation(
           locations_lookup,
           districtCode,
