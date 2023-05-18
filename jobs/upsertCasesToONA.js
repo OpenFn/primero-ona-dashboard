@@ -225,7 +225,7 @@ upsertMany(
         district_caregiver_code: setViaLocation(
           locations_lookup,
           districtCaregiverCode,
-          'district_code'
+          'code'
         )
       };
     }),
