@@ -119,6 +119,8 @@ upsertMany(
         if (result) return result[attributeToReturn];
         return null;
       };
+    
+      
       console.log('case_id_display ::', c.case_id_display);
       console.log('record id ::', c.id);
 
@@ -183,26 +185,47 @@ upsertMany(
         // province == '10' (Kratie)
         // district == '1006' (Chetr Borei)
         location_code: c.location_current,
+        
         province_current: setViaLocation(
           locations_lookup,
           districtCode,
           'province'
+        ),
+        province_current_code: setViaLocation(
+          locations_lookup,
+          districtCode,
+          'province_code'
         ),
         district_current: setViaLocation(
           locations_lookup,
           districtCode,
           'district'
         ),
+        district_current_code: setViaLocation(
+          locations_lookup,
+          districtCode,
+          'district_code'
+        ),
         province_caregiver: setViaLocation(
           locations_lookup,
           districtCaregiverCode,
           'province'
+        ),
+        province_caregiver_code: setViaLocation(
+          locations_lookup,
+          districtCaregiverCode,
+          'province_code'
         ),
         district_caregiver: setViaLocation(
           locations_lookup,
           districtCaregiverCode,
           'district'
         ),
+        district_caregiver_code: setViaLocation(
+          locations_lookup,
+          districtCaregiverCode,
+          'district_code'
+        )
       };
     }),
   { writeSql: true, logValues: true }
