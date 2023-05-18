@@ -116,7 +116,8 @@ upsertMany(
       const setViaLocation = (arr, searchVal, attributeToReturn) => {
         const result = arr.find(l => l.code == searchVal);
 
-        if (result) return result[attributeToReturn];
+    
+        if (result) {console.log(result); console.log(result[attributeToReturn]); return result[attributeToReturn]};
         return null;
       };
     
