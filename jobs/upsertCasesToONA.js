@@ -85,7 +85,7 @@ fn(state => {
   // TODO: remove this deduplication step
 
   const { cases } = state;
-  console.log(`from ${cases.length} initial cases we have...`);
+  //console.log(`from ${cases.length} initial cases we have...`);
 
   state.cases = Array.from(new Set(cases.map(c => c.case_id_display))).map(
     id => {
@@ -117,19 +117,19 @@ upsertMany(
         const result = arr.find(l => l.code == searchVal);
 
     
-        if (result) {console.log(result); console.log(result[attributeToReturn]); return result[attributeToReturn]};
+        if (result) {console.log("RESULT"); console.log(result); console.log("attributeToReturn"); console.log(result[attributeToReturn]); return result[attributeToReturn]};
         return null;
       };
     
       
-      console.log('case_id_display ::', c.case_id_display);
-      console.log('record id ::', c.id);
+      // console.log('case_id_display ::', c.case_id_display);
+      // console.log('record id ::', c.id);
 
       const placement = c.type_of_placement;
-      console.log('placement ::', placement);
+      //console.log('placement ::', placement);
       const formattedPlacement =
         placement && placement.split('_').slice(0, -1).join(' ');
-      console.log('formatted placement ::', formattedPlacement);
+      //console.log('formatted placement ::', formattedPlacement);
 
       const protectionConcerns = [];
       const protections = c.protection_concerns || [];
@@ -139,10 +139,10 @@ upsertMany(
         protectionConcerns.push(state.protectionMap[protection]);
       });
       const translatedProtectionConcerns = protectionConcerns.join(', ');
-      console.log(
-        'output for protection_concerns ::',
-        translatedProtectionConcerns
-      );
+      // console.log(
+      //   'output for protection_concerns ::',
+      //   translatedProtectionConcerns
+      // );
 
       const location = c.location_current;
       const districtCode =
@@ -164,7 +164,7 @@ upsertMany(
           : locationCaregiver
           ? locationCaregiver.substring(0, 4)
           : locationCaregiver;
-      console.log('Caregiver district code ::', districtCaregiverCode);
+     // console.log('Caregiver district code ::', districtCaregiverCode);
 
       return {
         //case_id: c.case_id,
@@ -253,7 +253,7 @@ fn(state => {
     .flat()
     .filter(service => service !== undefined);
 
-  console.log(`from ${allServices.length} services we have...`);
+  //console.log(`from ${allServices.length} services we have...`);
 
   const deDuplicatedServices = Array.from(
     new Set(allServices.map(s => s.unique_id))
@@ -261,7 +261,7 @@ fn(state => {
     return allServices.find(s => s.unique_id === id);
   });
 
-  console.log(`we get... ${deDuplicatedServices.length} deduplicated services`);
+  //console.log(`we get... ${deDuplicatedServices.length} deduplicated services`);
 
   return { ...state, allServices: deDuplicatedServices };
 });
