@@ -205,7 +205,7 @@ upsertMany(
         district_current_code: setViaLocation(
           locations_lookup,
           districtCode,
-          'district_code'
+          'code'
         ),
         province_caregiver: setViaLocation(
           locations_lookup,
