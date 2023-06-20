@@ -9,6 +9,7 @@ fn(state => {
     ...state,
     metadataForAgeRequest,
     metadataForTypeofCaseRequest,
+    dateCursor
   };
 });
 
