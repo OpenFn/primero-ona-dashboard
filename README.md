@@ -16,7 +16,7 @@ The mapping specifications for both indicators can be found via this link under 
 
 
 ## Data Flow
-This is an automated flow which is triggered by a cron job scheduled to run on Jan 1st, every year. 
+This is an automated flow that is triggered by a cron job scheduled to run on Jan 1st, of every year. 
 1. This **first job** _fetches newly created cases in Primero and posts that data to the OpenFn inbox._ (The data is fetched twice in this one job to meet the requirements for both indicators.)
 2. These messages will then trigger the **second job**, _which maps and upserts that data to the ONA database._ 
 
@@ -32,10 +32,11 @@ Please see this data diagram for a review of the solution:
 
 
 ## Assumptions & Considerations for Change Management
-1. OpenFn is fetching ALL Primero cases where for **indicator 1: "type_of_case" = "Children Undergoing Reintegration"** and for **indicator 2: Age < 18 years.** Any further disegregation of these indicators will be completed in the ONA database. 
-2. The `locations_lookup` table can be used to look up the codes that will be stored in the `province_caregiver`, `provice_current`, `district_caregiver`, `district_current` fields
-3. The `data_dicitonary` table can be used to determine the Primero label for each column in the `cases` and `services` tables. This table also includes the Khmer translations for each `field` name and `option value` name. The translations are used by the ONA team to generate dashboards in both English and Khmer. 
-4. OpenFn will perform upsert() (update if record exists, create if new) operations in the ONA database when syncing data. To ensure no duplicate cases are entered, OpenFn will use the below identifiers to check for existing cases. We assume that these identifiers are unique.
+1. The ONA production database can only be accessed via a static IP that was provided by OpenFn. However, the ONA team was not able to provide a range of IPs for OpenFn to direct traffic to--their IP is not statically assigned and may change. For future runs of this workflow, it might be necessary for OpenFn to request the current ONA IP address before the sync is successful.
+2. OpenFn is fetching ALL Primero cases where for **indicator 1: "type_of_case" = "Children Undergoing Reintegration"** and for **indicator 2: Age < 18 years.** Any further disegregation of these indicators will be completed in the ONA database. 
+3. The `locations_lookup` table can be used to look up the codes that will be stored in the `province_caregiver`, `provice_current`, `district_caregiver`, `district_current` fields
+4. The `data_dicitonary` table can be used to determine the Primero label for each column in the `cases` and `services` tables. This table also includes the Khmer translations for each `field` name and `option value` name. The translations are used by the ONA team to generate dashboards in both English and Khmer. 
+5. OpenFn will perform upsert() (update if record exists, create if new) operations in the ONA database when syncing data. To ensure no duplicate cases are entered, OpenFn will use the below identifiers to check for existing cases. We assume that these identifiers are unique.
 - `case_id` for the `cases` table in ONA 
 - `unique_id` for the `services` table in ONA
 
