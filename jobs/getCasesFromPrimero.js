@@ -1,4 +1,5 @@
 fn(state => {
+  const dateCursor = '2023-01-01T00:00:00.000Z..2023-12-31T23:59:00.000Z'
   const { metadataForAgeRequest, metadataForTypeofCaseRequest } = state.data;
 
   console.log('pageForAgeRequest:', metadataForAgeRequest.page);
@@ -17,13 +18,14 @@ fn(state => {
   if (!metadataForTypeofCaseRequest.getcases) return state;
 
   return getCases(
-    {
+    state => 
+    ({
       record_state: true,
       type_of_case: 'children_undergoing_reintegration_55427',
-      created_at: '2023-01-01T00:00:00.000Z..2023-12-31T23:59:00.000Z',
+      created_at: state.dateCursor,
       per: 500,
       page: metadataForTypeofCaseRequest.page,
-    },
+    }),
     null,
     state => {
       const { data, metadata } = state;
@@ -45,13 +47,14 @@ fn(state => {
 
   if (!metadataForAgeRequest.getcases) return state;
   return getCases(
-    {
+    state =>
+    ({
       record_state: true,
-      created_at: '2023-01-01T00:00:00.000Z..2023-12-31T23:59:00.000Z',
+      created_at: state.dateCursor,
       age: '0..18',
       per: 500,
       page: metadataForAgeRequest.page,
-    },
+    }),
     null,
     state => {
       const { data, metadata } = state;
