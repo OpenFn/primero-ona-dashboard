@@ -47,7 +47,7 @@ fn(state => {
   return getCases(
     {
       record_state: true,
-      created_at: '2022-01-01T00:00:00.000Z..2022-12-31T23:59:00.000Z',
+      created_at: '2023-01-01T00:00:00.000Z..2023-12-31T23:59:00.000Z',
       age: '0..18',
       per: 500,
       page: metadataForAgeRequest.page,
