@@ -22,7 +22,7 @@ fn(state => {
     state => 
     ({
       record_state: true,
-      type_of_case: 'children_undergoing_reintegration_55427',
+      //type_of_case: 'children_undergoing_reintegration_55427',
       //created_at: state.dateCursor,
       case_id_display: 'd272e23',
       per: 500,
