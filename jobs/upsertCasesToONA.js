@@ -85,7 +85,7 @@ fn((state) => {
   // TODO: remove this deduplication step
 
   const { cases } = state;
-  //console.log(`from ${cases.length} initial cases we have...`);
+  console.log(`from ${cases.length} initial cases we have...`);
 
   state.cases = Array.from(new Set(cases.map((c) => c.case_id_display))).map(
     (id) => {
@@ -100,8 +100,9 @@ sql(() => "select * from locations_lookup");
 
 fn((state) => {
   const locations_lookup = state.response.body.rows;
-
-  console.log(`...we have ${state.cases.length} cases to load.`);
+  const locationsNumber = locations_lookup.length; 
+  console.log(`We have ${state.cases.length} cases to load.`);
+  console.log(`Number of locations found ${locationsNumber}`);
 
   return { ...state, locations_lookup };
 });
