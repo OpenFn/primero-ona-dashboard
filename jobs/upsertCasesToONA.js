@@ -279,7 +279,7 @@ fn((state) => {
     .flat()
     .filter((service) => service !== undefined);
 
-  //console.log(`from ${allServices.length} services we have...`);
+  console.log(`from ${allServices.length} services we have...`);
 
   const deDuplicatedServices = Array.from(
     new Set(allServices.map((s) => s.unique_id))
