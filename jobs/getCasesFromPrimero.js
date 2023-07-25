@@ -23,7 +23,7 @@ fn(state => {
   const { metadataForTypeofCaseRequest } = state;
 
   if (!metadataForTypeofCaseRequest.getcases) return state;
-
+  console.log("cursor", dateCursor)
   return getCases(
     state => ({
       record_state: true,
