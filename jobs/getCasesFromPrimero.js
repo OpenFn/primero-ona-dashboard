@@ -28,7 +28,7 @@ fn(state => {
     state => ({
       record_state: true,
       type_of_case: 'children_undergoing_reintegration_55427',
-      last_updated_at: state.dateCursor,
+      last_updated_at: state => `${state.cursor}..`,
       per: 500,
       page: metadataForTypeofCaseRequest.page,
     }),
