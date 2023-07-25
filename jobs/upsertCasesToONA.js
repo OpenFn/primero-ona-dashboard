@@ -156,7 +156,7 @@ fn((state) => {
         : location
         ? location.substring(0, 4)
         : location;
-    console.log("district code ::", districtCode);
+    //console.log("district code ::", districtCode);
 
     const locationCaregiver = c.location_caregiver;
     const districtCaregiverCode =
