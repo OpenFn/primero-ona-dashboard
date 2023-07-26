@@ -13,6 +13,7 @@ fn(state => {
     ? `${state.lastRunDateTime}..${runStartedAt}`
     : `${manualCursor}..${runStartedAt}`;
 
+console.log('lastRunDateTime', state.lastRunDateTime)
 
   const pageNextRoundPayload = {
     trigger: 'Job 0/3 Succeeds',
