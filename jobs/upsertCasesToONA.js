@@ -157,7 +157,7 @@ fn((state) => {
         : location
         ? location.substring(0, 4)
         : location;
-    console.log("district code ::", districtCode);
+    //console.log("district code ::", districtCode);
 
     const locationCaregiver = c.location_caregiver;
     const districtCaregiverCode =
@@ -295,6 +295,7 @@ fn((state) => {
 
 upsertMany("services", "unique_id", (state) => state.allServices);
 
-fn((state) => {
-  return { ...state };
-});
+// What is happening here ?
+// fn((state) => {
+//   return { ...state };
+// });

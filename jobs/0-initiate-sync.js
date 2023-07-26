@@ -6,10 +6,19 @@ fn(state => {
     getcases: true,
   };
 
+  const runStartedAt = new Date().toISOString();
+  const manualCursor = `2023-06-28T06:55:31.494Z`;
+
+  const dateCursor = state.lastRunDateTime
+    ? `${state.lastRunDateTime}..${runStartedAt}`
+    : `${manualCursor}..${runStartedAt}`;
+
   const pageNextRoundPayload = {
     trigger: 'Job 0/3 Succeeds',
     metadataForAgeRequest: initialMeta,
     metadataForTypeofCaseRequest: initialMeta,
+    dateCursor,
+    lastRunDateTime: runStartedAt,
   };
 
   console.log(
@@ -17,11 +26,14 @@ fn(state => {
     JSON.stringify(pageNextRoundPayload, null, 2)
   );
 
-  return { ...state, pageNextRoundPayload };
+  return {
+    ...state,
+    dateCursor,
+    pageNextRoundPayload,
+    lastRunDateTime: runStartedAt,
+  };
 });
 
 post(`${state.configuration.inboxUrl}`, {
-  body: state => {
-    return state.pageNextRoundPayload;
-  },
+  body: state => state.pageNextRoundPayload,
 });
