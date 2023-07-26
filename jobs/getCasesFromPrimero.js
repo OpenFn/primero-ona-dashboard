@@ -1,9 +1,10 @@
 fn(state => {
   const runStartedAt = new Date().toISOString();
+  const manualCursor = `2023-03-26T06:55:31.494Z`;
 
   const dateCursor = state.lastRunDateTime
     ? `${state.lastRunDateTime}..${runStartedAt}`
-    : '2023-03-26T06:55:31.494Z';
+    : `${manualCursor}..${runStartedAt}`;
 
   const { metadataForAgeRequest, metadataForTypeofCaseRequest } = state.data;
 
@@ -23,7 +24,7 @@ fn(state => {
   const { metadataForTypeofCaseRequest } = state;
 
   if (!metadataForTypeofCaseRequest.getcases) return state;
-  console.log("cursor", state.dateCursor)
+  console.log('cursor', state.dateCursor);
 
   return getCases(
     state => ({
