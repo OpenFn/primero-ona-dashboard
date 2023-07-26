@@ -2,7 +2,7 @@
 
 # Primero <> ONA Dashboard Sync for Indicator Monitoring
 
-UNICEF is currently using an ONA-built Canopy-based dashboard to visualize integrated child protection-related indicators. This integration allows UNICEF to link specific indicators from this dashboard with aggregated data from Primero, to be extracted on an annual basis.
+UNICEF is currently using an ONA-built Canopy-based dashboard to visualize integrated child protection-related indicators. This integration allows UNICEF to link specific indicators from this dashboard with aggregated data from Primero, to be extracted on a quarterly basis.
 
 **The two indicators being covered in this solution are:**
 - 4.8 Number of children provided with family reunification or kinship, or community-based care placements
