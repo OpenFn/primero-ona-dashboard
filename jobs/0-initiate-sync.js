@@ -28,7 +28,8 @@ console.log('lastRunDateTime', state.lastRunDateTime)
     JSON.stringify(pageNextRoundPayload, null, 2)
   );
 
-  return { ...state, pageNextRoundPayload };
+  return { ...state, pageNextRoundPayload,dateCursor,
+    lastRunDateTime: runStartedAt };
 });
 
 post(`${state.configuration.inboxUrl}`, {
