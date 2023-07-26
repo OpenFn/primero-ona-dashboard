@@ -19,6 +19,8 @@ console.log('lastRunDateTime', state.lastRunDateTime)
     trigger: 'Job 0/3 Succeeds',
     metadataForAgeRequest: initialMeta,
     metadataForTypeofCaseRequest: initialMeta,
+    dateCursor,
+    lastRunDateTime: runStartedAt
   };
 
   console.log(
@@ -26,12 +28,9 @@ console.log('lastRunDateTime', state.lastRunDateTime)
     JSON.stringify(pageNextRoundPayload, null, 2)
   );
 
-  return { ...state, pageNextRoundPayload, dateCursor,
-    lastRunDateTime: runStartedAt };
+  return { ...state, pageNextRoundPayload };
 });
 
 post(`${state.configuration.inboxUrl}`, {
-  body: state => {
-    return state.pageNextRoundPayload;
-  },
+  body: state => state.pageNextRoundPayload,
 });
