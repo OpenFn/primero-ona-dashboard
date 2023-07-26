@@ -1,4 +1,7 @@
 fn(state => {
+  console.log(state.dateCursor, 'Date cursor')
+  console.log(state.lastRunDateTime, 'last sync')
+  
   const { metadataForAgeRequest, metadataForTypeofCaseRequest } = state.data;
 
   console.log('pageForAgeRequest:', metadataForAgeRequest.page);
