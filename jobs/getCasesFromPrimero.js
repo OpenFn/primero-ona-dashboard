@@ -1,8 +1,5 @@
 fn(state => {
-  console.log(state.dateCursor, 'Date cursor')
-  console.log(state.lastRunDateTime, 'last sync')
-  
-  const { metadataForAgeRequest, metadataForTypeofCaseRequest } = state.data;
+  const { metadataForAgeRequest, metadataForTypeofCaseRequest, dateCursor,lastRunDateTime } = state.data;
 
   console.log('pageForAgeRequest:', metadataForAgeRequest.page);
   console.log('pageForTypeOfCaseRequest:', metadataForTypeofCaseRequest.page);
@@ -10,7 +7,9 @@ fn(state => {
   return {
     ...state,
     metadataForAgeRequest,
-    metadataForTypeofCaseRequest
+    metadataForTypeofCaseRequest,
+    dateCursor,
+    lastRunDateTime
   };
 });
 
