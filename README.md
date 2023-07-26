@@ -28,7 +28,7 @@ Please see this data diagram for a review of the solution:
 **[Workflow Diagram](https://lucid.app/lucidchart/f7f7607f-8cb0-46d3-b00a-a4171a5ee823/edit?invitationId=inv_dfb0977f-5c8b-48ed-9678-58e7016b795d&page=8Gfxxsp41uUy#) (Lucidchart Link)** 
 <img width="1098" alt="image" src="https://github.com/OpenFn/primero-ona-dashboard/assets/80456839/21d4018b-73d7-4e2a-85b2-9aaf6b0be6a3">
 
-
+Find the completed Project Security & Go-Live Checklist [here](https://drive.google.com/file/d/1eQDjRzI5VBnkwbjUXDruaSXVx2MnDlYM/view?usp=drive_link).
 
 ## Adaptors
 1. `http`
