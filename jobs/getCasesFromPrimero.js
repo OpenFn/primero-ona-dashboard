@@ -1,5 +1,10 @@
 fn(state => {
-  const { metadataForAgeRequest, metadataForTypeofCaseRequest, dateCursor,lastRunDateTime } = state.data;
+  const {
+    metadataForAgeRequest,
+    metadataForTypeofCaseRequest,
+    dateCursor,
+    lastRunDateTime,
+  } = state.data;
 
   console.log('pageForAgeRequest:', metadataForAgeRequest.page);
   console.log('pageForTypeOfCaseRequest:', metadataForTypeofCaseRequest.page);
@@ -9,7 +14,7 @@ fn(state => {
     metadataForAgeRequest,
     metadataForTypeofCaseRequest,
     dateCursor,
-    lastRunDateTime
+    lastRunDateTime,
   };
 });
 

@@ -46,6 +46,5 @@ fn(state => {
   }
 
   console.log('No more cases to query');
-  console.log(state.lastRunDateTime, 'last sync job 3')
   return state;
 });
