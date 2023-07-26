@@ -1,11 +1,4 @@
 fn(state => {
-  const runStartedAt = new Date().toISOString();
-  const manualCursor = `2023-03-26T06:55:31.494Z`;
-
-  const dateCursor = state.lastRunDateTime
-    ? `${state.lastRunDateTime}..${runStartedAt}`
-    : `${manualCursor}..${runStartedAt}`;
-
   const { metadataForAgeRequest, metadataForTypeofCaseRequest } = state.data;
 
   console.log('pageForAgeRequest:', metadataForAgeRequest.page);
@@ -14,9 +7,7 @@ fn(state => {
   return {
     ...state,
     metadataForAgeRequest,
-    metadataForTypeofCaseRequest,
-    dateCursor,
-    lastRunDateTime: runStartedAt,
+    metadataForTypeofCaseRequest
   };
 });
 
