@@ -157,8 +157,7 @@ fn((state) => {
         ? location.substring(0, 4)
         : location;
     //console.log("district code ::", districtCode);
-
-    const lastUpdatedAt = state.lastRunDateTime.toDateString();
+    var newDate = new Date(state.lastRunDateTime.toDateString());
     const locationCaregiver = c.location_caregiver;
     const districtCaregiverCode =
       (locationCaregiver && locationCaregiver.length === 3) ||
