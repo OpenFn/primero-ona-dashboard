@@ -158,14 +158,9 @@ fn((state) => {
         : location;
     //console.log("district code ::", districtCode);
   
-    //2022-09-05 00:00:00 
+
     const lastUpdatedAt = new Date().toISOString().replace('T', ' ').substr(0, 19);
-    
-    console.log(lastUpdatedAt, 'LU');
-    
-    //2022-09-05 00:00:00 
-    //2022-10-07
-    
+  
     const locationCaregiver = c.location_caregiver;
     const districtCaregiverCode =
       (locationCaregiver && locationCaregiver.length === 3) ||
