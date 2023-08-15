@@ -158,7 +158,10 @@ fn((state) => {
         ? location.substring(0, 4)
         : location;
     //console.log("district code ::", districtCode);
+  
 
+    const lastUpdatedAt = new Date().toISOString().replace('T', ' ').substr(0, 19);
+  
     const locationCaregiver = c.location_caregiver;
     const districtCaregiverCode =
       (locationCaregiver && locationCaregiver.length === 3) ||
@@ -173,6 +176,7 @@ fn((state) => {
     return {
       //case_id: c.case_id,
       case_id: c.case_id_display,
+      last_updated_date: lastUpdatedAt,
       registration_date: c.registration_date,
       case_source: c.oscar_number ? "oscar" : "primero",
       disabled: state.disabilityTypeMap[c.disability_type],
