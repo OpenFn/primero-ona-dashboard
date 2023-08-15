@@ -1,3 +1,16 @@
+const formatTimestamp =(timestamp)=> {
+  const date = new Date(timestamp);
+  const [year, month, day] = [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0'),
+  ];
+  const time = `${String(date.getHours()).padStart(2, '0')}:${String(
+    date.getMinutes()
+  ).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+  return `${year}-${month}-${day} ${time}`;
+}
+
 fn((state) => {
   //Mapping table for protection concerns
   const protectionMap = {
@@ -158,12 +171,14 @@ fn((state) => {
         : location;
     //console.log("district code ::", districtCode);
     
-    const lastUpdatedDate = state.lastRunDateTime
-    var lastUpdatedAt = new Date(lastUpdatedDate.toDateString());
+    
+    const lastUpdatedAt = formatTimestamp(state.lastRunDateTime);
+    console.log(lastUpdatedAt, 'LU');
+    
     
     //2022-09-05 00:00:00 
     //2022-10-07
-  
+    
     const locationCaregiver = c.location_caregiver;
     const districtCaregiverCode =
       (locationCaregiver && locationCaregiver.length === 3) ||
