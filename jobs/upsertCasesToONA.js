@@ -160,6 +160,9 @@ fn((state) => {
     
     const lastUpdatedDate = state.lastRunDateTime
     var lastUpdatedAt = new Date(lastUpdatedDate.toDateString());
+    
+    //2022-09-05 00:00:00 
+    //2022-10-07
   
     const locationCaregiver = c.location_caregiver;
     const districtCaregiverCode =
