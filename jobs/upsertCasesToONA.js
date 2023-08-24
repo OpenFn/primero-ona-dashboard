@@ -301,7 +301,8 @@ upsertMany("services", "unique_id", (state) => state.allServices);
 // Cleaning up final state that will be passed to request-next-batch
 // Notice the client key, it's important to include that key because it's being
 // used by the adaptor for hanlding DB connection
-const { client, metadataForAgeRequest, metadataForTypeofCaseRequest } = state;
+fn(state => { 
+  const { client, metadataForAgeRequest, metadataForTypeofCaseRequest } = state;
 
   return {
     client,
