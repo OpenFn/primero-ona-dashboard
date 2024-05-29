@@ -7,7 +7,7 @@ fn(state => {
   };
 
   const runStartedAt = new Date().toISOString();
-  const manualCursor = `2020-01-01T06:55:31.494Z`;
+  const manualCursor = `2024-01-04T03:45:25.209Z`;
 
   const dateCursor = state.lastRunDateTime
     ? `${state.lastRunDateTime}..${runStartedAt}`
