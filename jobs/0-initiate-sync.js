@@ -34,6 +34,7 @@ fn(state => {
   };
 });
 
-post(`${state.configuration.inboxUrl}`, {
-  body: state => state.pageNextRoundPayload,
-});
+post(
+  `${state.configuration.inboxUrl}`,
+  state => state.pageNextRoundPayload,
+);
