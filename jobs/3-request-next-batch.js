@@ -40,9 +40,7 @@ fn(state => {
       'Next round of getCases metadata',
       JSON.stringify(pageNextRoundPayload, null, 2)
     );
-    return post(`${state.configuration.inboxUrl}`, {
-      body: pageNextRoundPayload,
-    })(state);
+    return post(`${state.configuration.inboxUrl}`, pageNextRoundPayload)(state);
   }
 
   console.log('No more cases to query');
